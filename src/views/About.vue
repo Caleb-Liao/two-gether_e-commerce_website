@@ -34,7 +34,7 @@
       <el-row>
         <el-col :span="16">
           <h2><mark class="mark">五大承諾</mark></h2>
-          <small>We have been committed to delivering the best service</small>
+          <small>We have been committed to delivering the best service!</small>
           <h3>給消費者的五大承諾：</h3>
           <ul>
             <li>我們不會向邊友透漏您的個資</li>
@@ -63,6 +63,7 @@
 
 <style lang="scss">
   .about{
+    color: #606266;
     .el-row{
       padding: 40px;
       height: 100vh;

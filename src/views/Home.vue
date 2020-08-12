@@ -10,14 +10,10 @@
           <li><router-link to="/" exact>首頁</router-link></li>
           <li><router-link to="/about">關於我們</router-link></li>
           <li class="products">
-            <router-link to="/products">服務項目</router-link>
+            <router-link :to="`/products/all`">服務項目</router-link>
             <ul class="product">
-              <li>- 運動</li>
-              <li>- 吃飯</li>
-              <li>- 出遊</li>
-              <li>- 看電影</li>
-              <li>- 玩桌遊</li>
-              <li>- 加購區</li>
+              <li to="/products" v-for="category in categories" :key="category.name">
+              <router-link :to="`/products/${category.value}`">-{{category.name}}</router-link></li>
             </ul>
           </li>
           <li><router-link to="/order">我的訂單</router-link></li>
@@ -42,12 +38,28 @@
   </div>
 </template>
 
+<script>
+export default {
+  data () {
+    return {
+      categories: [
+        { name: '運動', value: 'exercise' },
+        { name: '吃飯', value: 'eatout' },
+        { name: '出遊', value: 'hangout' },
+        { name: '看電影', value: 'movie' },
+        { name: '玩桌遊', value: 'boardgame' },
+        { name: '加購區', value: 'others' }
+      ]
+    }
+  }
+}
+</script>
+
 <style lang="scss">
   $main-color:#ffd571;
 
   *{
     box-sizing: border-box;
-    color: #606266;
   }
   body{
     height: 100vh;
@@ -75,6 +87,7 @@
       flex-direction: column;
       align-items: flex-start;
       a{
+        color: #606266;
         text-decoration: none;
         font-size: 18px;
         font-weight: 600;
@@ -118,6 +131,7 @@
     .information{
       font-size: 12px;
       a{
+        color: #606266;
         text-decoration: none;
       }
       li{

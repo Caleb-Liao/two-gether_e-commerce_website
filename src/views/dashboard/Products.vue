@@ -1,5 +1,5 @@
 <template>
-  <div class="productsList">
+  <div class="backendProducts">
     <div class="productsTopBtn">
       <div class="categoryBtn">
         <span>類別：</span>
@@ -90,7 +90,7 @@
 import ProductModal from '@/components/ProductModal'
 
 export default {
-  name: 'products',
+  name: 'backendProducts',
   components: {
     productmodal: ProductModal
   },
