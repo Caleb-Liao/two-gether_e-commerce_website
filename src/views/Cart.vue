@@ -78,6 +78,7 @@
 export default {
   data () {
     return {
+      cart: [],
       active: 0,
       payment: ['WebATM', 'ATM', 'CVS', 'Barcode', 'Credit', 'ApplePay', 'GooglePay'],
       form: {
@@ -105,7 +106,20 @@ export default {
     }
   },
 
+  created () {
+    this.getCart()
+  },
+
   methods: {
+    getCart () {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
+      this.axios.get(api).then((response) => {
+        this.cart = response.data.data
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

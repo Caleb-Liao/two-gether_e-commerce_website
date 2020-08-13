@@ -15,7 +15,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="joinUs">
+    <div class="joinUs" id="joinUS">
       <el-row>
         <el-col :span="8">
           <img src="https://images.unsplash.com/photo-1587751395859-9fa4224678a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=632&q=80" alt="">

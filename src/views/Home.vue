@@ -17,6 +17,7 @@
             </ul>
           </li>
           <li><router-link to="/order">我的訂單</router-link></li>
+          <li><el-button @click="drawer = true" type="primary" size="mini">線上客服</el-button></li>
         </ul>
       </div>
       <div class="information">
@@ -35,6 +36,26 @@
     <div class="container">
       <router-view/>
     </div>
+    <!-- 可以做成component -->
+    <el-drawer
+      可以做成component
+      title="您好我是智慧線上客服小笨^^"
+      :visible.sync="drawer"
+      size="25%">
+      <div>
+        <p>八男您好~</p>
+        <p>請問有什麼可以幫助您的地方嗎？</p>
+        <div>
+          <p style="float:right;clear:both;margin:20px 0;color:gray">{{customerMsg}}</p>
+          <p v-if="waitTime == 1" style="clear:both">輸入訊息中...</p>
+          <p v-if="waitTime == 2" style="clear:both">乾你娘老雞掰小笨在睡覺ㄛ : )</p>
+        </div>
+      </div>
+      <div>
+        <el-input v-model="tempMsg" type="textarea" style="width:80%" @keyup.enter.native.exact="sendMsg"></el-input>
+        <el-button size="small" @click="sendMsg">送出</el-button>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -42,6 +63,10 @@
 export default {
   data () {
     return {
+      drawer: false,
+      tempMsg: '',
+      customerMsg: '',
+      waitTime: 0,
       categories: [
         { name: '運動', value: 'exercise' },
         { name: '吃飯', value: 'eatout' },
@@ -50,6 +75,19 @@ export default {
         { name: '玩桌遊', value: 'boardgame' },
         { name: '加購區', value: 'others' }
       ]
+    }
+  },
+
+  methods: {
+    sendMsg () {
+      this.customerMsg = this.tempMsg
+      this.tempMsg = ''
+      setTimeout(() => {
+        this.waitTime = 1
+      }, 500)
+      setTimeout(() => {
+        this.waitTime = 2
+      }, 2000)
     }
   }
 }
@@ -60,9 +98,6 @@ export default {
 
   *{
     box-sizing: border-box;
-  }
-  body{
-    height: 100vh;
   }
   .home{
     display: flex;
@@ -146,5 +181,20 @@ export default {
   .container{
     width: 100%;
     margin-left: 250px;
+  }
+
+  .el-drawer{
+    outline-color: white;
+  }
+
+  .el-drawer > header > span:focus {
+    outline-color: white;
+  }
+
+  .el-drawer__body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
   }
 </style>

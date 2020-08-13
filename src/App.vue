@@ -8,4 +8,7 @@
   #app{
     font-family: "Microsoft YaHei","Microsoft JhengHei",sans-serif;
   }
+  html,body {
+    height: 100%;
+  }
 </style>
