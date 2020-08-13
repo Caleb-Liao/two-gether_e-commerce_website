@@ -105,9 +105,5 @@ export default {
       flex-direction:column;
       justify-content:space-between
     }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 180px;
-      min-height: 400px
-    }
   }
 </style>

@@ -2,7 +2,6 @@
   <el-dialog
     title="新增優惠券"
     :visible.sync="dialogVisible"
-    :width="modalWidth"
     top="5vh"
     :before-close="cancel">
     <el-form label-width="80px">
@@ -60,8 +59,7 @@ export default {
         deadline: {
           datetime: ''
         }
-      },
-      modalWidth: ''
+      }
     }
   },
 
@@ -74,10 +72,6 @@ export default {
       type: Boolean,
       required: true
     }
-  },
-
-  created () {
-    window.addEventListener('resize', this.detectWindowWidth)
   },
 
   methods: {
@@ -111,14 +105,6 @@ export default {
       }).catch((error) => {
         console.log('錯誤:', error)
       })
-    },
-
-    detectWindowWidth () {
-      if (window.innerWidth < 1200) {
-        this.modalWidth = '90%'
-      } else {
-        this.modalWidth = '30%'
-      }
     }
   }
 }

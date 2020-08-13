@@ -64,10 +64,16 @@ export default {
     width: 180px !important;
     @media (max-width: 1200px){
         width:70px !important;
-      }
+    }
   }
   .el-loading-spinner{
       position: fixed;
       width: 75%;
+  }
+  .el-dialog{
+    width: 30%;
+    @media (max-width: 1200px){
+        width:90%;
     }
+  }
 </style>

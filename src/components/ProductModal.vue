@@ -2,7 +2,6 @@
   <el-dialog
     title="新增產品"
     :visible.sync="dialogVisible"
-    :width="modalWidth"
     top="0"
     :before-close="cancel">
     <el-form label-width="80px">
@@ -74,7 +73,6 @@ export default {
         enabled: true,
         imageUrl: []
       },
-      modalWidth: '',
       category: [
         { interest: '運動' },
         { interest: '吃飯' },
@@ -120,10 +118,6 @@ export default {
     }
   },
 
-  created () {
-    window.addEventListener('resize', this.detectWindowWidth)
-  },
-
   methods: {
     cancel () {
       this.$emit('dialog-cancel')
@@ -155,14 +149,6 @@ export default {
       }).catch((error) => {
         console.log('錯誤:', error)
       })
-    },
-
-    detectWindowWidth () {
-      if (window.innerWidth < 1200) {
-        this.modalWidth = '90%'
-      } else {
-        this.modalWidth = '30%'
-      }
     }
   }
 }

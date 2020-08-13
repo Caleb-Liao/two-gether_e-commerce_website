@@ -2,7 +2,6 @@
   <el-dialog
     title="訂單資料"
     :visible.sync="dialogVisible"
-    :width="modalWidth"
     top="0"
     :before-close="cancel">
     <span class="alert">請勿直接修改訂單，<br>若尚未付款則重新下單即可，<br>已付款者則聯絡退款後重新下單。</span>
@@ -51,8 +50,7 @@ export default {
           title: '',
           percent: ''
         }
-      },
-      modalWidth: ''
+      }
     }
   },
 
@@ -61,10 +59,6 @@ export default {
       type: Boolean,
       required: true
     }
-  },
-
-  created () {
-    window.addEventListener('resize', this.detectWindowWidth)
   },
 
   methods: {
@@ -83,14 +77,6 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
-    },
-
-    detectWindowWidth () {
-      if (window.innerWidth < 1200) {
-        this.modalWidth = '90%'
-      } else {
-        this.modalWidth = '30%'
-      }
     }
   }
 }
