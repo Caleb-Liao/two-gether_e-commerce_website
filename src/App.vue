@@ -11,4 +11,8 @@
   html,body {
     height: 100%;
   }
+  .el-loading-spinner{
+      position: fixed;
+      width: 75%;
+  }
 </style>

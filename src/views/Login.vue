@@ -11,6 +11,7 @@
                 <el-input id="password" type="password" v-model="user.password" placeholder="請輸入密碼"></el-input>
               </el-form-item>
               <el-button type="info" native-type="submit">登入</el-button>
+              <h2 style="margin-top:10px"><router-link to="/" style="text-decoration:none">回到前台</router-link></h2>
               <p v-if="error == true ">帳號或密碼輸入錯誤</p>
           </el-form>
       </el-col>
@@ -36,7 +37,7 @@ export default {
         const token = response.data.token
         const expired = response.data.expired
         document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`
-        this.$router.push('admin/')
+        this.$router.push('admin/products')
       }).catch((error) => {
         console.log(error)
         this.user.password = ''
