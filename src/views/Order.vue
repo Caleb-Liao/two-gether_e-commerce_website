@@ -2,7 +2,7 @@
   <div class="order"  v-loading="loading">
     <h1>我的訂單</h1>
     <p>訂單編號：{{order.id}}</p>
-    <div v-for="item in order.products" :key="item.product.title+item.product.description">
+    <div v-for="item in order.products" :key="item.product.imageUrl[0]">
       <p>品項：{{item.product.title}}</p>
       <p>類別：{{item.product.category}}</p>
       <p>內容：{{item.product.content}}</p>
@@ -24,7 +24,6 @@
 export default {
   data () {
     return {
-      orderId: '',
       order: {},
       loading: false
     }
@@ -39,18 +38,10 @@ export default {
       this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders?paged=99999`
       this.axios.get(api).then((response) => {
-        this.orderId = response.data.data[32].id
-        // 取得最新一筆訂單資料的id後，用它來取得該筆完整的訂單細節
-        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${this.orderId}`
-        this.axios.get(api).then((response) => {
-          this.order = response.data.data
-          this.loading = false
-        }).catch((err) => {
-          console.log('取得訂單細節有誤', err)
-          this.loading = false
-        })
+        this.order = response.data.data[0]
+        this.loading = false
       }).catch((err) => {
-        console.log('取得訂單id有誤', err)
+        console.log(err)
         this.loading = false
       })
     }

@@ -5,11 +5,13 @@
 </template>
 
 <style lang="scss">
-  #app{
-    font-family: "Microsoft YaHei","Microsoft JhengHei",sans-serif;
-  }
   html,body {
     height: 100%;
+  }
+  #app{
+    width: 1440px;
+    margin: 0 auto;
+    font-family: "Microsoft YaHei","Microsoft JhengHei",sans-serif;
   }
   .el-loading-spinner{
       position: fixed;

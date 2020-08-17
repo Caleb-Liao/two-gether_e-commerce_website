@@ -138,7 +138,7 @@ export default {
         this.axios.delete(url).then(() => {
           this.getCoupons()
         })
-      })
+      }).catch(() => {})
     }
   }
 }

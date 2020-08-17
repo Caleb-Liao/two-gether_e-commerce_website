@@ -212,7 +212,7 @@ export default {
         this.axios.delete(url).then(() => {
           this.getProducts()
         })
-      })
+      }).catch(() => {})
     }
   }
 }

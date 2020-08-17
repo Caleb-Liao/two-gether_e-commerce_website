@@ -10,12 +10,11 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
     component: () => import('../views/Home.vue'),
     children: [
       {
         path: '',
-        name: 'Index',
+        name: 'fontendIndex',
         component: () => import('../views/Index.vue')
       },
       {
@@ -25,7 +24,7 @@ const routes = [
       },
       {
         path: 'products/:category',
-        name: 'Products',
+        name: 'fontendProducts',
         component: () => import('../views/Products.vue')
       },
       {
@@ -47,17 +46,16 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'Dashboard',
     component: () => import('../views/dashboard/Dashboard.vue'),
     children: [
       {
         path: '',
-        name: 'Index',
+        name: 'backendIndex',
         component: () => import('../views/dashboard/Index.vue')
       },
       {
         path: 'products',
-        name: 'Products',
+        name: 'backendProducts',
         component: () => import('../views/dashboard/Products.vue')
       },
       {

@@ -3,8 +3,15 @@
       <el-steps :active="active" finish-status="success">
         <el-step title="我的購物車" v-show="active == 0">
           <template slot="description">
-            <el-table
-              :data="tableData">
+            <el-input
+              placeholder="請輸入優惠碼"
+              v-model="couponCode"
+              style="width:200px"
+              clearable
+              @keyup.native.enter="sendCouponCode">
+            </el-input>
+            <span v-if="couponStatus == false" style="color:red"><i class="el-icon-warning-outline">您的折扣碼已失效，請重新輸入</i></span>
+            <el-table>
               <el-table-column
                 prop="date"
                 label="品名"
@@ -80,6 +87,9 @@ export default {
     return {
       cart: [],
       active: 0,
+      couponCode: '',
+      coupon: {},
+      couponStatus: null,
       payment: ['WebATM', 'ATM', 'CVS', 'Barcode', 'Credit', 'ApplePay', 'GooglePay'],
       form: {
         name: '',
@@ -127,6 +137,18 @@ export default {
         } else {
           console.log('error submit!!')
         }
+      })
+    },
+
+    sendCouponCode () {
+      console.log(123)
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`
+      this.axios.post(api, { code: this.couponCode }).then((response) => {
+        this.coupon = response.data.data
+        this.couponCode = ''
+      }).catch((err) => {
+        console.log(err)
+        this.couponStatus = false
       })
     }
   }
