@@ -3,7 +3,7 @@
     <h2 class="title"><mark class="mark">服務項目</mark></h2>
     <span class="smallTitle">OurServices</span>
     <div class="head">
-      <span>Showing 1–9 of 48 results</span>
+      <span>{{`Showing ${count.from}-${count.to} of ${count.total} results`}}</span>
       <select v-model="sort" @change="sortProducts">
         <option v-for="item in sortList" :key="item.value" :value="item.value">{{item.name}}</option>
       </select>
@@ -13,8 +13,8 @@
       <div v-for="(item,index) in productsList" :key="item.id" class="product">
         <div v-if="(index+1) > (page-1)*9 && (index+1) <= page*9">
           <div class="imgCircle">
-            <img src="@/assets/icon/cart.svg" alt="" class="cartIcon">
-            <img src="@/assets/icon/more.svg" alt="" class="informationIcon">
+            <img src="@/assets/icon/cart.svg" alt="" class="cartIcon" @click="addToCart(item.id)">
+            <img src="@/assets/icon/more.svg" alt="" class="informationIcon"  @click="openModal(item.id)">
             <img :src="item.imageUrl[0]" alt="" class="productImg">
           </div>
           <div class="productInformation">
@@ -23,7 +23,9 @@
             <img src="@/assets/icon/male.svg" alt="" v-if="item.options.gender == '男'">
             <img src="@/assets/icon/female.svg" alt="" v-if="item.options.gender == '女'">
             <span style="margin-left:50px">{{item.title}}</span>
-            <span>{{item.price}}<span style="font-size:16px;color:#a59a96;margin-left:3px">$</span></span>
+            <span>{{item.price}}
+              <span style="font-size:16px;color:#a59a96;margin-left:3px">$</span>
+            </span>
           </div>
         </div>
       </div>
@@ -37,11 +39,19 @@
       :hide-on-single-page="true"
       >
     </el-pagination>
+
+    <productmodal :dialog-visible="dialogVisible" @close-modal="dialogVisible = false" ref="frontendProductModal"></productmodal>
   </div>
 </template>
 
 <script>
+import FrontendProductModal from '@/components/FrontendProductModal'
+
 export default {
+  components: {
+    productmodal: FrontendProductModal
+  },
+
   data () {
     return {
       categoryList: {
@@ -54,18 +64,29 @@ export default {
         others: []
       },
       sort: '',
+      count: { from: 0, to: 0, total: 0 },
       sortList: [
         { name: '請選擇排序方式', value: '' },
         { name: '排序依據性別', value: 'gender' },
         { name: '排序依據地區', value: 'area' },
         { name: '排序依據價錢', value: 'price' }
       ],
+      dialogVisible: false,
       loading: false
     }
   },
 
   created () {
     this.getProducts()
+  },
+
+  updated () {
+    this.count.from = (this.page * 9) - 8
+    this.count.total = this.productsList.length
+
+    if (this.page !== this.totalPages) {
+      this.count.to = this.page * 9
+    } else this.count.to = this.productsList.length
   },
 
   computed: {
@@ -149,6 +170,24 @@ export default {
       })
 
       this.categoryList[this.$route.params.category] = result
+    },
+
+    addToCart (id) {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
+      this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        console.log('已新增至購物車')
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+
+    openModal (id) {
+      this.loading = true
+      this.$refs.frontendProductModal.getProduct(id)
+      setTimeout(() => {
+        this.dialogVisible = true
+        this.loading = false
+      }, 1000)
     }
   }
 }
@@ -186,6 +225,10 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       .product{
+        &:last-child:nth-child(3n - 1){
+          // 最後一行如果不滿三個且只有兩個時要調整位置
+          margin-right: 36%;
+        }
         width: 27%;
         .imgCircle{
           width: 250px;
@@ -216,6 +259,7 @@ export default {
             right: 10px;
             top: 97px;
             background-color: #e7e2e1;
+            cursor: pointer;
           }
           .informationIcon{
             position: absolute;
@@ -223,6 +267,7 @@ export default {
             right: 10px;
             top: 130px;
             background-color: #e7e2e1;
+            cursor: pointer;
           }
           .productImg{
             width: 72%;

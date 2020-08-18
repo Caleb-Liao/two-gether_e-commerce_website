@@ -11,7 +11,7 @@
               @keyup.native.enter="sendCouponCode">
             </el-input>
             <span v-if="couponStatus == false" style="color:red"><i class="el-icon-warning-outline">您的折扣碼已失效，請重新輸入</i></span>
-            <el-table>
+            <el-table :data="cart">
               <el-table-column
                 prop="date"
                 label="品名"
@@ -121,8 +121,9 @@ export default {
   },
 
   methods: {
-    getCart () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
+    getCart (paged = 9999) {
+      console.log(this.$refs)
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
       this.axios.get(api).then((response) => {
         this.cart = response.data.data
       }).catch((err) => {

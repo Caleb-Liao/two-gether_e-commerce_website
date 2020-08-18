@@ -4,7 +4,7 @@
       <div class="backgroundImg"><img :src="item.image" alt="" v-if="index == activeImg"></div>
     </div>
     <div class="block">
-      <el-carousel interval="2000" autoplay height="60vh" ref="carousel" @change="getIndex($refs.carousel.activeIndex)">
+      <el-carousel :interval=2000 autoplay height="60vh" ref="carousel" @change="getIndex($refs.carousel.activeIndex)">
         <el-carousel-item v-for="item in images" :key="item.image">
           <router-link :to="`${item.path}`"><img :src="item.image" alt=""></router-link>
           <router-link :to="`${item.path}`" class="indexBtn">{{item.word}}</router-link>

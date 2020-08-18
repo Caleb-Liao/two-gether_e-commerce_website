@@ -6,7 +6,7 @@
           <div style="width:88px;height:88px;background-color:#d8d8d8"></div>
           <h1 style="font-size:48px;margin-left:15px;margin-bottom:30px;color:#4b403c">Two - <br>Gether</h1>
         </div>
-        <el-badge :value="12" style="float:right">
+        <el-badge :value="cartNum" style="float:right;">
           <router-link to="/cart" class="cartBtn">我的購物車
             <img src="@/assets/icon/cart.svg" alt="">
             <img src="@/assets/icon/cartWhite.svg" alt="">
@@ -28,7 +28,7 @@
             <h5>Our Service</h5>
             <ul class="product">
               <li to="/products" v-for="category in categories" :key="category.name">
-              <router-link :to="`/products/${category.value}`">-{{category.name}}</router-link></li>
+              <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
             </ul>
           </li>
           <li>
@@ -57,7 +57,7 @@
     <div class="container">
       <router-view/>
     </div>
-    <chatmodal :drawer="drawer" @close-modal="drawer=false"></chatmodal>
+    <chatmodal :drawer="drawer" @close-modal="drawer=false;"></chatmodal>
   </div>
 </template>
 
@@ -79,7 +79,23 @@ export default {
         { name: '看電影', value: 'movie' },
         { name: '玩桌遊', value: 'boardgame' },
         { name: '加購區', value: 'others' }
-      ]
+      ],
+      cartNum: 0
+    }
+  },
+
+  updated () {
+    this.getCartNum()
+  },
+
+  methods: {
+    getCartNum (paged = 9999) {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
+      this.axios.get(api).then((response) => {
+        this.cartNum = response.data.data.length
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   }
 }
@@ -128,15 +144,15 @@ export default {
         }
       }
       .router-link-active{
-          color: white;
-          background: #d6cbc7;
-          border-radius: 16px;
-          img:nth-of-type(1){
-            display: none;
-          }
-          img:nth-of-type(2){
-            display: inline;
-          }
+        color: white;
+        background: #d6cbc7;
+        border-radius: 16px;
+        img:nth-of-type(1){
+          display: none;
+        }
+        img:nth-of-type(2){
+          display: inline;
+        }
       }
     }
 
@@ -163,6 +179,7 @@ export default {
       }
       ul>li{
         padding-top: 20px;
+        width: 100px;
         &:hover{
           transform: translateX(2px);
         }
@@ -179,12 +196,41 @@ export default {
         }
       }
       .product{
-        font-weight: 600;
         display: none;
         position: absolute;
-        width: 100px;
+        width: 90px;
+        height: 180px;
         left: 100px;
-        top: -30px;
+        top: -55px;
+        box-shadow: 0 0 10px 0 rgba(165, 154, 150, 0.5);
+        padding: 5px 15px;
+        &::after{
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: -30px;
+          border-width: 15px;
+          border-style: solid;
+          border-color: transparent white transparent transparent;
+        }
+        &::before{
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: -32px;
+          border-width: 15px;
+          border-style: solid;
+          border-color: transparent rgba(165, 154, 150, 0.2) transparent transparent;
+        }
+        li{
+          padding: 0;
+          font-size: 14px;
+          line-height: 2em;
+          color: #808185;
+          opacity: 0.8;
+        }
         li:hover{
           text-shadow: $main-color 1px 3px 1px
         }
@@ -193,6 +239,8 @@ export default {
 
     .information{
       font-size: 12px;
+      padding-left: 30px;
+      color: #606266;
       a{
         color: #606266;
         text-decoration: none;

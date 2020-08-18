@@ -15,6 +15,6 @@
   }
   .el-loading-spinner{
       position: fixed;
-      width: 75%;
+      width: 60%;
   }
 </style>
