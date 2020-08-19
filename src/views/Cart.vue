@@ -11,28 +11,46 @@
               @keyup.native.enter="sendCouponCode">
             </el-input>
             <span v-if="couponStatus == false" style="color:red"><i class="el-icon-warning-outline">您的折扣碼已失效，請重新輸入</i></span>
+            <el-button @click="deleteAll">清空購物車</el-button>
             <el-table :data="cart">
               <el-table-column
-                prop="date"
+                width="100"
+                align="center">
+                <div slot-scope="scope">
+                  <el-image
+                    style="width: 100%"
+                    :src="scope.row.product.imageUrl[0]"
+                    :preview-src-list="scope.row.product.imageUrl">
+                  </el-image>
+                </div>
+              </el-table-column>
+              <el-table-column
+                prop="product.title"
                 label="品名"
                 width="500"
                 align="center">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="product.category"
                 label="類別"
                 width="180"
                 align="center">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="product.price"
                 label="小計"
                 align="center">
               </el-table-column>
               <el-table-column>
+                <div slot-scope="scope">
+                  <i class="el-icon-delete" @click="deleteItem(scope.row.product.id)"></i>
+                </div>
               </el-table-column>
             </el-table>
             <el-button @click="active++">前往結帳</el-button>
+            <p>運費:0</p>
+            <p>優惠碼折扣:-666(-20%)</p>
+            <p>共計:1234$</p>
           </template>
         </el-step>
 
@@ -122,7 +140,6 @@ export default {
 
   methods: {
     getCart (paged = 9999) {
-      console.log(this.$refs)
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
       this.axios.get(api).then((response) => {
         this.cart = response.data.data
@@ -150,6 +167,24 @@ export default {
       }).catch((err) => {
         console.log(err)
         this.couponStatus = false
+      })
+    },
+
+    deleteItem (id) {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/${id}`
+      this.axios.delete(api).then((response) => {
+        this.getCart()
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+
+    deleteAll () {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/all/product`
+      this.axios.delete(api).then((response) => {
+        this.getCart()
+      }).catch((err) => {
+        console.log(err)
       })
     }
   }

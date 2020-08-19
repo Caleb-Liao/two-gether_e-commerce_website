@@ -1,22 +1,32 @@
 <template>
   <div class="order"  v-loading="loading">
-    <h1>我的訂單</h1>
-    <p>訂單編號：{{order.id}}</p>
-    <div v-for="item in order.products" :key="item.product.imageUrl[0]">
-      <p>品項：{{item.product.title}}</p>
-      <p>類別：{{item.product.category}}</p>
-      <p>內容：{{item.product.content}}</p>
-      <p>描述：{{item.product.description}}</p>
-      <p>價錢：{{item.product.price}}</p>
-      <img :src="item.product.imageUrl[0]" alt="" style="width:200px;height:200px">
+    <h2 class="title"><mark class="mark">我的訂單</mark></h2>
+    <p>訂單編號：</p>
+    <p class="orderId">{{order.id}}</p>
+    <div class="products">
+      <div v-for="item in order.products" :key="item.product.imageUrl[0]" class="product">
+        <img :src="item.product.imageUrl[0]" alt="">
+        <div class="productTitle">
+          <h3>{{item.product.title}}</h3>
+          <span>&nbsp;</span>
+          <h4>{{item.product.category}}</h4>
+        </div>
+        <p class="productContent">{{item.product.content}}</p>
+        <p class="productDescription">—{{item.product.description}}</p>
+        <p class="productPrice"><span>—</span>{{item.product.price}}$</p>
+      </div>
     </div>
-    <p>備註：{{order.message}}</p>
-    <p v-if="order.coupon">使用優惠券：{{order.coupon.title}}</p>
-    <p v-if="order.coupon">折扣百分比：{{order.coupon.percent}}</p>
-    <p>共計：{{order.amount}}</p>
-    <p>付款方式：{{order.payment}}</p>
-    <p v-if="order.paid">已付款</p>
-    <p v-if="!order.paid">尚未付款</p>
+    <div class="orderOthers">
+      <p v-if="order.message">備註：{{order.message}}</p>
+      <p v-if="!order.message">備註：無</p>
+      <p v-if="order.coupon">使用優惠券：{{order.coupon.title}}</p>
+      <p v-if="order.coupon">折扣百分比：{{order.coupon.percent}} %</p>
+      <p>共計：{{order.amount}} $</p>
+      <p>付款方式：{{order.payment}}
+        <span v-if="order.paid">已付款</span>
+        <span v-if="!order.paid">尚未付款</span>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -38,7 +48,7 @@ export default {
       this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders?paged=99999`
       this.axios.get(api).then((response) => {
-        this.order = response.data.data[0]
+        this.order = response.data.data[32]
         this.loading = false
       }).catch((err) => {
         console.log(err)
@@ -48,3 +58,73 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .order{
+    padding: 100px 120px 100px 80px;
+    .orderId{
+      margin-left: 2em;
+      margin-top: 20px;
+    }
+    .products{
+      padding: 40px 0 40px 80px;
+      display: flex;
+      justify-content: space-between;
+      .product{
+        width: 250px;
+      }
+      img{
+        width: 100%;
+        height: 250px;
+        box-shadow: 0 0 20px #a59a96;
+      }
+      .productTitle{
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        h3{
+          font-size: 28px;
+          color: #4b403c;
+        }
+        span{
+          width: 40px;
+          height: 40px;
+          border-bottom: 1px solid #000;
+          transform:rotate(-45deg) translateY(-40%)
+        }
+        h4{
+          color: #a59a96;
+          transform: translateY(20px);
+        }
+      }
+      .productContent{
+        line-height: 1.33em;
+        color: #4b403c;
+        font-style: italic;
+      }
+      .productDescription{
+        font-size: 14px;
+        line-height: 1.7em;
+        color: #a59a96;
+        font-style: italic;
+        margin: 20px 0;
+      }
+      .productPrice{
+        text-align: end;
+        font-size: 28px;
+        font-style: italic;
+        span{
+          color: #a59a96;
+          margin-right: 10px;
+          font-size: 20px;
+        }
+      }
+    }
+    .orderOthers{
+      p{
+        color: #4b403c;
+        margin: 20px 0;
+      }
+    }
+  }
+</style>

@@ -175,9 +175,17 @@ export default {
     addToCart (id) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
-        console.log('已新增至購物車')
-      }).catch((err) => {
-        console.log(err)
+        this.$notify({
+          title: '恭喜～',
+          message: '商品已經加入購物車囉ヽ(●´∀`●)ﾉ',
+          offset: 150
+        })
+      }).catch(() => {
+        this.$notify({
+          title: '咦～',
+          message: '商品已經在購物車裡囉(｡◕∀◕｡)',
+          offset: 150
+        })
       })
     },
 

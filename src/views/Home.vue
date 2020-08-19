@@ -3,8 +3,8 @@
     <div class="sidebar">
       <div class="logo">
         <div style="display:flex">
-          <div style="width:88px;height:88px;background-color:#d8d8d8"></div>
-          <h1 style="font-size:48px;margin-left:15px;margin-bottom:30px;color:#4b403c">Two - <br>Gether</h1>
+          <div><img src="@/assets/logo.png" alt=""></div>
+          <h1>Two - <br>Gether</h1>
         </div>
         <el-badge :value="cartNum" style="float:right;">
           <router-link to="/cart" class="cartBtn">我的購物車
@@ -84,7 +84,7 @@ export default {
     }
   },
 
-  updated () {
+  created () {
     this.getCartNum()
   },
 
@@ -126,6 +126,11 @@ export default {
     .logo{
       height: 25%;
       padding: 30px 30px 30px 30px;
+      h1{
+        font-size: 48px;
+        margin: 0 0 30px 15px;
+        color: #4b403c;
+      }
       .cartBtn{
         font-size: 16px;
         color: #a59a96;

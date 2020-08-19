@@ -20,6 +20,7 @@
             <p>地區：{{product.options.area}}</p>
             <p>價錢：{{product.price}} $</p>
           </div>
+          <div class="line"></div>
           <div class="productInformation">
             <h5>產品資訊</h5>
             <div style="display:flex">
@@ -79,9 +80,18 @@ export default {
     addToCart (id, status) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        this.$notify({
+          title: '恭喜～',
+          message: '商品已經加入購物車囉ヽ(●´∀`●)ﾉ',
+          offset: 150
+        })
         if (status === 'buy') this.$router.push({ name: 'Cart' })
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
+        this.$notify({
+          title: '咦～',
+          message: '商品已經在購物車裡囉(｡◕∀◕｡)',
+          offset: 150
+        })
       })
     }
   }
@@ -144,9 +154,10 @@ export default {
     .basicInformation{
       margin: 2em 0;
       width: 400px;
-      border-bottom: 1px solid;
-      border-image-source: linear-gradient(to left, #ffffff, #a59a96 0%);
-      border-image-slice: 1;
+      border-width: 2px;
+      border-style: solid;
+      border-image: linear-gradient(to left,#ffffff,#a59a96) 0  0 100% 0;
+      padding-bottom: 10px;
     }
     .button{
       text-align: center;
