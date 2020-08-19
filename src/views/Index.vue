@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="indexPage">
     <div v-for="(item,index) in images" :key="item.image">
       <div class="backgroundImg"><img :src="item.image" alt="" v-if="index == activeImg"></div>
     </div>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-.index{
+.indexPage{
   .backgroundImg{
     img{
       width: 100%;

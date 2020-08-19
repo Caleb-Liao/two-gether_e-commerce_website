@@ -1,5 +1,5 @@
 <template>
-  <div class="cart">
+  <div class="cartPage" v-loading="loading">
       <el-steps :active="active" finish-status="success">
         <el-step title="我的購物車" v-show="active == 0">
           <template slot="description">
@@ -18,9 +18,9 @@
                 align="center">
                 <div slot-scope="scope">
                   <el-image
-                    style="width: 100%"
+                    style="width: 100%;cursor:pointer"
                     :src="scope.row.product.imageUrl[0]"
-                    :preview-src-list="scope.row.product.imageUrl">
+                    @click="openModal(scope.row.product.id)">
                   </el-image>
                 </div>
               </el-table-column>
@@ -43,7 +43,7 @@
               </el-table-column>
               <el-table-column>
                 <div slot-scope="scope">
-                  <i class="el-icon-delete" @click="deleteItem(scope.row.product.id)"></i>
+                  <i class="el-icon-delete" @click="deleteItem(scope.row.product.id)" style="cursor:pointer;font-size:20px"></i>
                 </div>
               </el-table-column>
             </el-table>
@@ -96,11 +96,17 @@
           </template>
         </el-step>
       </el-steps>
+      <productmodal :dialog-visible="dialogVisible" @close-modal="dialogVisible = false" ref="frontendProductModal"></productmodal>
     </div>
 </template>
 
 <script>
+import FrontendProductModal from '@/components/FrontendProductModal'
+
 export default {
+  components: {
+    productmodal: FrontendProductModal
+  },
   data () {
     return {
       cart: [],
@@ -130,7 +136,9 @@ export default {
         payment: [
           { required: true, message: '請選擇付款方式', trigger: 'change' }
         ]
-      }
+      },
+      dialogVisible: false,
+      loading: false
     }
   },
 
@@ -140,11 +148,14 @@ export default {
 
   methods: {
     getCart (paged = 9999) {
+      this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
       this.axios.get(api).then((response) => {
         this.cart = response.data.data
+        this.loading = false
       }).catch((err) => {
         console.log(err)
+        this.loading = false
       })
     },
 
@@ -171,28 +182,44 @@ export default {
     },
 
     deleteItem (id) {
+      this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/${id}`
       this.axios.delete(api).then((response) => {
         this.getCart()
+        this.$bus.$emit('updateCartNum')
       }).catch((err) => {
         console.log(err)
+        this.loading = false
       })
     },
 
     deleteAll () {
+      this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/all/product`
       this.axios.delete(api).then((response) => {
         this.getCart()
+        this.$bus.$emit('updateCartNum')
       }).catch((err) => {
         console.log(err)
+        this.loading = false
       })
+    },
+
+    openModal (id) {
+      this.loading = true
+      this.$refs.frontendProductModal.getProduct(id)
+      setTimeout(() => {
+        this.dialogVisible = true
+        this.loading = false
+      }, 1000)
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .cart{
+  .cartPage{
+    height: 100vh;
     margin: 30px;
     .el-step{
       flex-basis: 100% !important;

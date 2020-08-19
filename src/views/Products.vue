@@ -1,5 +1,5 @@
 <template>
-  <div class="frontendProducts" v-loading="loading">
+  <div class="frontendProductsPage" v-loading="loading">
     <h2 class="title"><mark class="mark">服務項目</mark></h2>
     <span class="smallTitle">OurServices</span>
     <div class="head">
@@ -15,7 +15,9 @@
           <div class="imgCircle">
             <img src="@/assets/icon/cart.svg" alt="" class="cartIcon" @click="addToCart(item.id)">
             <img src="@/assets/icon/more.svg" alt="" class="informationIcon"  @click="openModal(item.id)">
-            <img :src="item.imageUrl[0]" alt="" class="productImg">
+            <transition name="fade">
+              <img :src="item.imageUrl[0]" alt="" class="productImg" v-if="imgShow">
+            </transition>
           </div>
           <div class="productInformation">
             <img src="@/assets/icon/tools.svg" alt="" v-if="item.title == '客製化服務'">
@@ -37,7 +39,7 @@
       layout="pager"
       :page-count="totalPages"
       :hide-on-single-page="true"
-      >
+      @current-change="imgShow = false">
     </el-pagination>
 
     <productmodal :dialog-visible="dialogVisible" @close-modal="dialogVisible = false" ref="frontendProductModal"></productmodal>
@@ -72,15 +74,18 @@ export default {
         { name: '排序依據價錢', value: 'price' }
       ],
       dialogVisible: false,
-      loading: false
+      loading: false,
+      imgShow: false
     }
   },
 
   created () {
     this.getProducts()
+    this.$bus.$on('reshowImg', () => { this.imgShow = false })
   },
 
   updated () {
+    this.imgShow = true
     this.count.from = (this.page * 9) - 8
     this.count.total = this.productsList.length
 
@@ -141,6 +146,7 @@ export default {
     },
 
     sortProducts () {
+      this.imgShow = false
       if (!this.sort) return
       const mapped = this.productsList.map((item, i) => {
         if (this.sort === 'price') {
@@ -175,6 +181,7 @@ export default {
     addToCart (id) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
           message: '商品已經加入購物車囉ヽ(●´∀`●)ﾉ',
@@ -196,13 +203,23 @@ export default {
         this.dialogVisible = true
         this.loading = false
       }, 1000)
+    },
+
+    close () {
+      console.log(123)
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .frontendProducts{
+  .fade-enter-active{
+    transition: opacity 3s;
+  }
+  .fade-enter{
+    opacity: 0;
+  }
+  .frontendProductsPage{
     padding: 100px 130px 80px 100px;
     position: relative;
     .smallTitle{

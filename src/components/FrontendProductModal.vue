@@ -33,8 +33,8 @@
             </div>
           </div>
           <div class="button">
-            <el-button @click="addToCart(product.id,'add')">直接購買<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
-            <el-button @click="addToCart(product.id,'buy')">加入購物車<img src="@/assets/icon/cart2.svg" alt=""></el-button>
+            <el-button @click="addToCart(product.id,'buy')">直接購買<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
+            <el-button @click="addToCart(product.id,'add')">加入購物車<img src="@/assets/icon/cart2.svg" alt=""></el-button>
           </div>
         </el-col>
       </el-row>
@@ -80,6 +80,7 @@ export default {
     addToCart (id, status) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
           message: '商品已經加入購物車囉ヽ(●´∀`●)ﾉ',

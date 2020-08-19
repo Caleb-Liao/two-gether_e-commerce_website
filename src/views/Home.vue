@@ -23,7 +23,7 @@
             <router-link to="/about">關於我們</router-link>
             <h5>About Us</h5>
           </li>
-          <li class="products">
+          <li class="products" @click="$bus.$emit('reshowImg')">
             <router-link :to="`/products/all`">服務項目</router-link>
             <h5>Our Service</h5>
             <ul class="product">
@@ -86,6 +86,7 @@ export default {
 
   created () {
     this.getCartNum()
+    this.$bus.$on('updateCartNum', () => this.getCartNum())
   },
 
   methods: {
@@ -108,7 +109,8 @@ export default {
     box-sizing: border-box;
   }
   .home{
-    border: 1px solid #F5F5F5;
+    border-right: 1px solid #F5F5F5;
+    border-left: 1px solid #F5F5F5;
     font-size: 18px;
     display: flex;
     .router-link-active{
@@ -260,6 +262,7 @@ export default {
   }
 
   .container{
+    height: 100%;
     width: 100%;
     margin-left: 300px;
     position: relative;

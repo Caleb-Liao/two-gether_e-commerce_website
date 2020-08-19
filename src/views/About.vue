@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="aboutPage">
     <div class="ourStory">
       <el-row>
         <el-col :span="16">
@@ -62,7 +62,7 @@
 </template>
 
 <style lang="scss">
-  .about{
+  .aboutPage{
     color:#4b403c;
     .el-row{
       padding: 120px 80px 100px 100px;

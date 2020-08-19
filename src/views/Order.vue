@@ -1,5 +1,5 @@
 <template>
-  <div class="order"  v-loading="loading">
+  <div class="orderPage"  v-loading="loading">
     <h2 class="title"><mark class="mark">我的訂單</mark></h2>
     <p>訂單編號：</p>
     <p class="orderId">{{order.id}}</p>
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .order{
+  .orderPage{
     padding: 100px 120px 100px 80px;
     .orderId{
       margin-left: 2em;
