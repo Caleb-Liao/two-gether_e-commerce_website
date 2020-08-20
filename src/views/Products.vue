@@ -222,17 +222,32 @@ export default {
   .frontendProductsPage{
     padding: 100px 130px 80px 100px;
     position: relative;
+    @media(max-width: 768px){
+      padding: 0 50px;
+      h2{
+        display: none;
+      }
+    }
     .smallTitle{
       color: #a59a96;
       position: absolute;
       top: 40px;
       right: 100px;
+      @media(max-width: 768px){
+        display: none;
+      }
     }
     .head{
       color: #a59a96;
       display: flex;
       justify-content: space-between;
       margin-bottom: 120px;
+      @media(max-width: 768px){
+        flex-direction: column;
+        select{
+          margin-top: 20px;
+        }
+      }
       select{
         color: #a59a96;
         border-radius: 16px;
@@ -249,12 +264,24 @@ export default {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      @media(max-width: 768px){
+          flex-direction: column;
+          align-items: center;
+        }
       .product{
+        width: 27%;
+        display: flex;
+        justify-content: center;
         &:last-child:nth-child(3n - 1){
           // 最後一行如果不滿三個且只有兩個時要調整位置
           margin-right: 36%;
         }
-        width: 27%;
+        @media(max-width: 768px){
+          width: 100%;
+          &:last-child:nth-child(3n - 1){
+            margin-right: 0;
+          }
+        }
         .imgCircle{
           width: 250px;
           height: 250px;
@@ -312,7 +339,7 @@ export default {
       }
     }
     .el-pagination{
-      margin-left: 38%;
+     text-align: center;
     }
     .el-pagination.is-background .el-pager li:not(.disabled).active{
       background-color: #a59a96;

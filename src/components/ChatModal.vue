@@ -3,9 +3,13 @@
     title="智慧線上客服笨笨^_^"
     :visible.sync="drawer"
     :before-close="closeModal"
-    size="25%">
+    :size="size">
     <div>
-      <p><span>笨笨：</span><br>請問有什麼我可以幫助您的地方嗎？&#128516;</p>
+      <p>
+        <span>笨笨：</span>
+        <p>Two-Gether慶開幕！結帳時輸入優惠碼「luv-2-gether」立即享９折優惠！！
+        <br>您好請問有什麼我可以幫助您的地方嗎？&#128516;
+      </p>
       <div v-for="(item,index) in msgBox" :key="item+index">
         <p><span>我：</span><br>{{item.customerMsg}}</p>
         <p v-html="item.computerMsg"></p>
@@ -22,7 +26,8 @@ export default {
     return {
       tempMsg: '',
       msgBox: [],
-      keyboardBtn: true
+      keyboardBtn: true,
+      size: '25%'
     }
   },
 
@@ -31,6 +36,10 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+
+  created () {
+    window.addEventListener('resize', this.detectWindowWidth)
   },
 
   updated () {
@@ -54,6 +63,14 @@ export default {
     closeModal () {
       this.$emit('close-modal')
       this.keyboardBtn = true
+    },
+
+    detectWindowWidth () {
+      if (window.innerWidth < 1200) {
+        this.size = '90%'
+      } else {
+        this.size = '25%'
+      }
     }
   }
 }
@@ -74,6 +91,9 @@ export default {
       backdrop-filter: blur(10px);
       background-color: rgba(165, 154, 150, 0.8);
       z-index: -1;
+      @media(max-width: 1200px){
+        width: 90%;
+      }
     }
   }
   .el-drawer{

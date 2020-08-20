@@ -6,13 +6,13 @@
       top="10vh"
       :before-close="closeModal">
       <el-row class="Modal">
-        <el-col :span="11">
+        <el-col :span="11" :xs="24">
           <div class="imgCircle">
             <img :src="product.imageUrl[0]" alt="" class="productImg">
           </div>
         </el-col>
-        <el-col :span="13">
-          <h2>{{product.title}}</h2>
+        <el-col :span="13" :xs="24">
+          <h3>{{product.title}}</h3>
           <div class="basicInformation">
             <h5>基本資訊</h5>
             <p>產品類別：{{product.category}}</p>
@@ -104,6 +104,9 @@ export default {
   .el-dialog{
     box-shadow: 0 0 20px 10px rgba(165, 154, 150, 0.5);
     z-index: 1;
+    @media(max-width: 768px){
+      width: 100% !important;
+    }
   }
   .el-dialog__wrapper{
     backdrop-filter: blur(10px);
@@ -111,6 +114,9 @@ export default {
   }
   .Modal{
     padding: 0 40px;
+    @media(max-width: 768px){
+      padding: 0;
+    }
     .imgCircle{
       margin-top: 35%;
       width: 250px;
@@ -121,6 +127,9 @@ export default {
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      @media(max-width:768px){
+        margin: 0 auto 30px auto;
+      }
       &::after{
         content: "";
         width: 250px;
@@ -138,7 +147,7 @@ export default {
         border-radius: 40%;
       }
     }
-    h2{
+    h3{
       font-size: 32px;
       color: #4b403c;
     }
@@ -154,7 +163,6 @@ export default {
     }
     .basicInformation{
       margin: 2em 0;
-      width: 400px;
       border-width: 2px;
       border-style: solid;
       border-image: linear-gradient(to left,#ffffff,#a59a96) 0  0 100% 0;

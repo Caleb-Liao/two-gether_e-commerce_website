@@ -56,9 +56,19 @@ export default {
     width: 100%;
     .el-carousel{
       width: 90%;
-      img{
-        width: 100%;
-        height: 100%;
+      .el-carousel__item{
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        &:nth-of-type(2),&:nth-of-type(3){
+          img{
+            @media(max-width: 768px){
+              object-position: 65%  50%;
+            }
+          }
+        }
       }
       .el-carousel__button{
         display: none;
@@ -74,6 +84,7 @@ export default {
     }
   }
   .indexBtn{
+    width: 200px;
     font-size: 24px;
     letter-spacing: 4px;
     background: #e7e2e1;
@@ -84,7 +95,8 @@ export default {
     position: absolute;
     text-align: center;
     bottom: 30px;
-    left: 44%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 </style>

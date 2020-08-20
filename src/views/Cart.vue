@@ -171,11 +171,15 @@ export default {
     },
 
     sendCouponCode () {
-      console.log(123)
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`
       this.axios.post(api, { code: this.couponCode }).then((response) => {
         this.coupon = response.data.data
         this.couponCode = ''
+        this.$notify({
+          title: '恭喜～',
+          message: '優惠券已存入購物車囉ヽ(●´∀`●)ﾉ',
+          offset: 150
+        })
       }).catch((err) => {
         console.log(err)
         this.couponStatus = false
@@ -221,8 +225,9 @@ export default {
 <style lang="scss">
   .cartPage{
     padding: 80px 100px;
-    .el-table th, .el-table tr{
-       background-color:#FFFEFA
+    @media(max-width: 768px){
+      padding: 0;
+      width: 100%;
     }
     .el-step__icon{
       width: 36px;

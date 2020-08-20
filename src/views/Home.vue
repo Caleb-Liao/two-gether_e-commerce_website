@@ -109,11 +109,13 @@ export default {
     box-sizing: border-box;
   }
   .home{
-    background-color: #FFFEFA;
     border-right: 2px solid #F5F5F5;
     border-left: 2px solid #F5F5F5;
     font-size: 18px;
     display: flex;
+    @media(max-width:768px){
+      display: block;
+    }
     .router-link-active{
         color: #a59a96;
         background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
@@ -126,6 +128,12 @@ export default {
     height: 100%;
     position: fixed;
     border-right: 2px solid #F5F5F5;
+    @media(max-width: 768px){
+      width: 100%;
+      height: 100px;
+      position: block;
+      display: none;
+    }
     .logo{
       height: 25%;
       padding: 30px 30px 30px 30px;
@@ -267,6 +275,10 @@ export default {
     width: 100%;
     margin-left: 300px;
     position: relative;
+    @media(max-width:768px){
+      margin-left: 0;
+      margin-top: 50px;
+    }
     .title{
       position: absolute;
       top: 40px;

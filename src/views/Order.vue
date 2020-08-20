@@ -62,16 +62,33 @@ export default {
 <style lang="scss">
   .orderPage{
     padding: 100px 120px 100px 80px;
+    @media(max-width: 768px){
+      padding: 100px 30px
+    }
     .orderId{
       margin-left: 2em;
       margin-top: 20px;
+      word-wrap:break-word;
+      word-break:break-all;
     }
     .products{
       padding: 40px 0 40px 80px;
       display: flex;
       justify-content: space-between;
+      @media(max-width: 768px){
+        padding-left: 0;
+        flex-direction: column;
+        align-items: center;
+      }
       .product{
-        width: 250px;
+        width: 30%;
+        @media(max-width: 768px){
+          width: 50%;
+          margin-bottom: 30px;
+        }
+        @media(max-width: 550px){
+          width: 80%;
+        }
       }
       img{
         width: 100%;
