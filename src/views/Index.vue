@@ -42,8 +42,9 @@ export default {
 .indexPage{
   .backgroundImg{
     img{
-      width: 100%;
-      height: 100vh;
+      margin: 0 2%;
+      width: 96%;
+      height: 99vh;
       filter: blur(20px)
     }
   }

@@ -109,8 +109,9 @@ export default {
     box-sizing: border-box;
   }
   .home{
-    border-right: 1px solid #F5F5F5;
-    border-left: 1px solid #F5F5F5;
+    background-color: #FFFEFA;
+    border-right: 2px solid #F5F5F5;
+    border-left: 2px solid #F5F5F5;
     font-size: 18px;
     display: flex;
     .router-link-active{
@@ -124,7 +125,7 @@ export default {
     width: 300px;
     height: 100%;
     position: fixed;
-    border-right: 1px solid #F5F5F5;
+    border-right: 2px solid #F5F5F5;
     .logo{
       height: 25%;
       padding: 30px 30px 30px 30px;

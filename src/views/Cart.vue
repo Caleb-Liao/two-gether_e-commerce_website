@@ -1,7 +1,8 @@
 <template>
   <div class="cartPage" v-loading="loading">
+    <h2 class="title"><mark class="mark">我的購物車</mark></h2>
       <el-steps :active="active" finish-status="success">
-        <el-step title="我的購物車" v-show="active == 0">
+        <el-step title="您的商品" v-show="active == 0">
           <template slot="description">
             <el-input
               placeholder="請輸入優惠碼"
@@ -47,14 +48,14 @@
                 </div>
               </el-table-column>
             </el-table>
-            <el-button @click="active++">前往結帳</el-button>
+            <el-button @click="active++">前往結帳<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
             <p>運費:0</p>
             <p>優惠碼折扣:-666(-20%)</p>
             <p>共計:1234$</p>
           </template>
         </el-step>
 
-        <el-step title="請填寫資料" v-show="active == 1">
+        <el-step title="請填寫資料" v-show="active == 1" style="height:80vh">
           <template slot="description">
             <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" style="margin:5% 0 0 20%">
               <el-form-item label="姓名" prop="name">
@@ -82,7 +83,7 @@
           </template>
         </el-step>
 
-        <el-step title="完成訂單" v-show="active == 2">
+        <el-step title="訂單已完成" v-show="active == 2" style="height:80vh">
           <template slot="description">
             <h2>恭喜您已完成訂單，您的訂單編號為：</h2>
             <p>我們會在活動當天前<span>七天</span>聯絡您討論當天內容，若是有需要的話也可以直接連絡我們唷！</p>
@@ -219,13 +220,39 @@ export default {
 
 <style lang="scss">
   .cartPage{
-    height: 100vh;
-    margin: 30px;
+    padding: 80px 100px;
+    .el-table th, .el-table tr{
+       background-color:#FFFEFA
+    }
+    .el-step__icon{
+      width: 36px;
+      height: 36px;
+      transform: translateY(-8px);
+      .el-step__icon-inner{
+        font-size: 24px;
+        font-weight: normal
+      }
+    }
     .el-step{
+      margin-top: 20px;
       flex-basis: 100% !important;
     }
     .el-step__description{
       padding-right: 0;
+    }
+    .el-button{
+      height: 32px;
+      color: #a59a96;
+      border-radius: 16px;
+      border: solid 1px #d6cbc7;
+      padding: 0 10px;
+      line-height: 32px;
+      float: right;
+      margin-top: 20px;
+      img{
+        transform: translateY(5px);
+        margin-left: 5px;
+      }
     }
     .input{
       width: 50%;

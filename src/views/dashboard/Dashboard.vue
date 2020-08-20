@@ -53,23 +53,25 @@ export default {
 </script>
 
 <style lang="scss">
-  .el-header{
-    background-color: #545c64;
-  }
-  .el-container{
-    height: 100vh;
-  }
-  .el-aside{
-    overflow-x: hidden;
-    width: 180px !important;
-    @media (max-width: 1200px){
-        width:70px !important;
+  .dashboard{
+    .el-header{
+      background-color: #545c64;
     }
-  }
-  .el-dialog{
-    width: 30%;
-    @media (max-width: 1200px){
-        width:90%;
+    .el-container{
+      height: 100vh;
+    }
+    .el-aside{
+      overflow-x: hidden;
+      width: 180px !important;
+      @media (max-width: 1200px){
+          width:70px !important;
+      }
+    }
+    .el-dialog{
+      width: 30%;
+      @media (max-width: 1200px){
+          width:90%;
+      }
     }
   }
 </style>
