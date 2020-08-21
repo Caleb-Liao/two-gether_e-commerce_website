@@ -136,6 +136,7 @@
     }
     ul{
       margin-top: 40px;
+      margin-left: 20px;
     }
     li{
       margin: 0 40px 0 1em;

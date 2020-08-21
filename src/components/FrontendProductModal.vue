@@ -3,7 +3,6 @@
     <el-dialog
       :visible.sync="dialogVisible"
       width="900px"
-      top="10vh"
       :before-close="closeModal">
       <el-row class="Modal">
         <el-col :span="11" :xs="24">
@@ -104,8 +103,10 @@ export default {
   .el-dialog{
     box-shadow: 0 0 20px 10px rgba(165, 154, 150, 0.5);
     z-index: 1;
+    margin-top: 10vh !important;
     @media(max-width: 768px){
       width: 100% !important;
+      margin-top: 5vh !important;
     }
   }
   .el-dialog__wrapper{
