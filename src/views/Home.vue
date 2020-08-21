@@ -1,61 +1,63 @@
 <template>
   <div class="home">
     <button class="sidebarBtn" @click="sidebarIsOpen = true" :class="{'sidebarBtn_open':sidebarIsOpen == false}">open</button>
-    <div class="sidebar" v-if="sidebarIsOpen == true">
-      <button class="sidebarBtn" @click="sidebarIsOpen = false" :class="{'sidebarBtn_close':sidebarIsOpen == true}">close</button>
-      <div class="logo">
-        <div style="display:flex">
-          <div><img src="@/assets/logo.png" alt=""></div>
-          <h1>Two - <br>Gether</h1>
+    <transition name="sidebar">
+      <div class="sidebar" v-if="sidebarIsOpen == true">
+        <button class="sidebarBtn" @click="sidebarIsOpen = false" :class="{'sidebarBtn_close':sidebarIsOpen == true}">close</button>
+        <div class="logo">
+          <div style="display:flex">
+            <div><img src="@/assets/logo.png" alt=""></div>
+            <h1>Two - <br>Gether</h1>
+          </div>
+          <el-badge :value="cartNum" style="float:right;">
+            <router-link to="/cart" class="cartBtn">我的購物車
+              <img src="@/assets/icon/cart.svg" alt="">
+              <img src="@/assets/icon/cartWhite.svg" alt="">
+            </router-link>
+          </el-badge>
         </div>
-        <el-badge :value="cartNum" style="float:right;">
-          <router-link to="/cart" class="cartBtn">我的購物車
-            <img src="@/assets/icon/cart.svg" alt="">
-            <img src="@/assets/icon/cartWhite.svg" alt="">
-          </router-link>
-        </el-badge>
+        <div class="menu">
+          <ul>
+            <li>
+              <router-link to="/" exact>首頁</router-link>
+              <h5>Home Page</h5>
+            </li>
+            <li>
+              <router-link to="/about">關於我們</router-link>
+              <h5>About Us</h5>
+            </li>
+            <li class="products" @click="$bus.$emit('reshowImg')">
+              <router-link :to="`/products/all`">服務項目</router-link>
+              <h5>Our Service</h5>
+              <ul class="product">
+                <li to="/products" v-for="category in categories" :key="category.name">
+                <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
+              </ul>
+            </li>
+            <li>
+              <router-link to="/order">我的訂單</router-link>
+              <h5>My Order</h5>
+            </li>
+            <li>
+              <a href="#" @click="drawer = true">線上客服</a>
+              <h5>Customer Service</h5>
+            </li>
+          </ul>
+        </div>
+        <div class="information">
+          <ul class="icon">
+            <li><a href=""><i class="fab fa-github fa-lg"></i></a></li>
+            <li><a href=""><i class="fab fa-facebook fa-lg"></i></a></li>
+            <li><a href=""><i class="fab fa-instagram fa-lg"></i></a></li>
+          </ul>
+          <ul>
+            <li><a href="tel:0234567890"><i class="fas fa-phone-alt"></i> 02-34567890</a></li>
+            <li><a href="mailto:two_gether222@gmail.com"><i class="far fa-envelope"></i> two_gether222@gmail.com</a></li>
+          </ul>
+          <p>&copy; 2020 TwoGether公司 版權所有</p>
+        </div>
       </div>
-      <div class="menu">
-        <ul>
-          <li>
-            <router-link to="/" exact>首頁</router-link>
-            <h5>Home Page</h5>
-          </li>
-          <li>
-            <router-link to="/about">關於我們</router-link>
-            <h5>About Us</h5>
-          </li>
-          <li class="products" @click="$bus.$emit('reshowImg')">
-            <router-link :to="`/products/all`">服務項目</router-link>
-            <h5>Our Service</h5>
-            <ul class="product">
-              <li to="/products" v-for="category in categories" :key="category.name">
-              <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
-            </ul>
-          </li>
-          <li>
-            <router-link to="/order">我的訂單</router-link>
-            <h5>My Order</h5>
-          </li>
-          <li>
-            <a href="#" @click="drawer = true">線上客服</a>
-            <h5>Customer Service</h5>
-          </li>
-        </ul>
-      </div>
-      <div class="information">
-        <ul class="icon">
-          <li><a href=""><i class="fab fa-github fa-lg"></i></a></li>
-          <li><a href=""><i class="fab fa-facebook fa-lg"></i></a></li>
-          <li><a href=""><i class="fab fa-instagram fa-lg"></i></a></li>
-        </ul>
-        <ul>
-          <li><a href="tel:0234567890"><i class="fas fa-phone-alt"></i> 02-34567890</a></li>
-          <li><a href="mailto:two_gether222@gmail.com"><i class="far fa-envelope"></i> two_gether222@gmail.com</a></li>
-        </ul>
-        <p>&copy; 2020 TwoGether公司 版權所有</p>
-      </div>
-    </div>
+    </transition>
     <div class="container">
       <router-view/>
     </div>
@@ -130,11 +132,17 @@ export default {
         background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
         padding: 2px 1px;
     }
+    .sidebar-enter-active, .sidebar-leave-active{
+      transition: all 1s;
+    }
+    .sidebar-enter, .sidebar-leave-to{
+      transform: translateX(-100px);
+      opacity: 0;
+    }
   }
 
   .sidebarBtn{
     transform: translateX(-100%);
-    z-index: 2;
     display: none;
     &_open{
       position: fixed;
@@ -142,6 +150,7 @@ export default {
       left: 50px;
       @media(max-width: 768px){
         display: block;
+        z-index: 1;
       }
     }
     &_close{
@@ -159,8 +168,10 @@ export default {
     height: 100%;
     position: fixed;
     border-right: 2px solid #F5F5F5;
-    z-index: 1;
     background-color: white;
+    @media (max-width: 768px) {
+      z-index: 1;
+    }
     .logo{
       height: 25%;
       padding: 30px 30px 30px 30px;

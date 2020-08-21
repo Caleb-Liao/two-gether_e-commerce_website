@@ -45,7 +45,8 @@ export default {
       margin: 0 2%;
       width: 96%;
       height: 99vh;
-      filter: blur(20px)
+      filter: blur(20px);
+      z-index: -1;
     }
   }
   .block{
@@ -56,6 +57,7 @@ export default {
     width: 100%;
     .el-carousel{
       width: 90%;
+      z-index: 0;
       .el-carousel__item{
         img{
           width: 100%;
