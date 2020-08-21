@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <div class="sidebar">
+    <button class="sidebarBtn" @click="sidebarIsOpen = true" :class="{'sidebarBtn_open':sidebarIsOpen == false}">open</button>
+    <div class="sidebar" v-if="sidebarIsOpen == true">
+      <button class="sidebarBtn" @click="sidebarIsOpen = false" :class="{'sidebarBtn_close':sidebarIsOpen == true}">close</button>
       <div class="logo">
         <div style="display:flex">
           <div><img src="@/assets/logo.png" alt=""></div>
@@ -80,11 +82,13 @@ export default {
         { name: '玩桌遊', value: 'boardgame' },
         { name: '加購區', value: 'others' }
       ],
-      cartNum: 0
+      cartNum: 0,
+      sidebarIsOpen: true
     }
   },
 
   created () {
+    window.addEventListener('resize', this.detectWindowWidth)
     this.getCartNum()
     this.$bus.$on('updateCartNum', () => this.getCartNum())
   },
@@ -97,6 +101,14 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+
+    detectWindowWidth () {
+      if (window.innerWidth <= 768) {
+        this.sidebarIsOpen = false
+      } else {
+        this.sidebarIsOpen = true
+      }
     }
   }
 }
@@ -113,13 +125,32 @@ export default {
     border-left: 2px solid #F5F5F5;
     font-size: 18px;
     display: flex;
-    @media(max-width:768px){
-      display: block;
-    }
     .router-link-active{
         color: #a59a96;
         background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
         padding: 2px 1px;
+    }
+  }
+
+  .sidebarBtn{
+    transform: translateX(-100%);
+    z-index: 2;
+    display: none;
+    &_open{
+      position: fixed;
+      top: 10px;
+      left: 50px;
+      @media(max-width: 768px){
+        display: block;
+      }
+    }
+    &_close{
+      position: absolute;
+      top: 50%;
+      left: 300px;
+      @media(max-width: 768px){
+        display: block;
+      }
     }
   }
 
@@ -128,12 +159,8 @@ export default {
     height: 100%;
     position: fixed;
     border-right: 2px solid #F5F5F5;
-    @media(max-width: 768px){
-      width: 100%;
-      height: 100px;
-      position: block;
-      display: none;
-    }
+    z-index: 1;
+    background-color: white;
     .logo{
       height: 25%;
       padding: 30px 30px 30px 30px;
@@ -277,7 +304,6 @@ export default {
     position: relative;
     @media(max-width:768px){
       margin-left: 0;
-      margin-top: 50px;
     }
     .title{
       position: absolute;

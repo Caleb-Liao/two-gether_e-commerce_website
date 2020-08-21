@@ -25,7 +25,7 @@ export default {
     return {
       user: {
         email: '',
-        password: 'a7708801314'
+        password: ''
       },
       error: false
     }

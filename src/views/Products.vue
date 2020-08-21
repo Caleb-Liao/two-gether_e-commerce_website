@@ -224,9 +224,6 @@ export default {
     position: relative;
     @media(max-width: 768px){
       padding: 0 50px;
-      h2{
-        display: none;
-      }
     }
     .smallTitle{
       color: #a59a96;
@@ -244,6 +241,7 @@ export default {
       margin-bottom: 120px;
       @media(max-width: 768px){
         flex-direction: column;
+        padding-top: 120px;
         select{
           margin-top: 20px;
         }

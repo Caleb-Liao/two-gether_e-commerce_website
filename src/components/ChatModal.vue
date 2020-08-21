@@ -67,7 +67,7 @@ export default {
 
     detectWindowWidth () {
       if (window.innerWidth < 1200) {
-        this.size = '90%'
+        this.size = '80%'
       } else {
         this.size = '25%'
       }
@@ -92,7 +92,7 @@ export default {
       background-color: rgba(165, 154, 150, 0.8);
       z-index: -1;
       @media(max-width: 1200px){
-        width: 90%;
+        width: 80%;
       }
     }
   }
