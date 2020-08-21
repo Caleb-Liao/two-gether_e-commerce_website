@@ -143,6 +143,9 @@
       line-height: 1.5em;
       list-style-type: decimal;
       list-style-position: outside;
+      @media (max-width: 768px) {
+        margin-right: 0;
+      }
     }
     span{
       float: right;
