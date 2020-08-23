@@ -21,7 +21,7 @@
       <p v-if="!order.message">備註：無</p>
       <p v-if="order.coupon">使用優惠券：{{order.coupon.title}}</p>
       <p v-if="order.coupon">折扣百分比：{{order.coupon.percent}} %</p>
-      <p>共計：{{order.amount}} $</p>
+      <p>共計：{{Math.round(order.amount)}} $</p>
       <p>付款方式：{{order.payment}}
         <span v-if="order.paid">已付款</span>
         <span v-if="!order.paid">尚未付款</span>
@@ -48,7 +48,7 @@ export default {
       this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders?paged=99999`
       this.axios.get(api).then((response) => {
-        this.order = response.data.data[32]
+        this.order = response.data.data[0]
         this.loading = false
       }).catch((err) => {
         console.log(err)
@@ -74,6 +74,7 @@ export default {
     .products{
       padding: 40px 0 40px 80px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       @media(max-width: 768px){
         padding-left: 0;
@@ -81,7 +82,11 @@ export default {
         align-items: center;
       }
       .product{
-        width: 30%;
+        width: 26%;
+        &:last-child:nth-child(3n - 1){
+          // 最後一行如果不滿三個且只有兩個時要調整位置
+          margin-right: 36%;
+        }
         @media(max-width: 768px){
           width: 50%;
           margin-bottom: 30px;
@@ -92,8 +97,7 @@ export default {
       }
       img{
         width: 100%;
-        height: 250px;
-        box-shadow: 0 0 20px #a59a96;
+        height: 300px;
       }
       .productTitle{
         display: flex;

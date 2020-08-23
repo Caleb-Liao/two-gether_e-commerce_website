@@ -4,7 +4,7 @@
       <el-menu
         :default-active="$route.path"
         class="el-menu-vertical-demo"
-        :collapse="isCollapse"
+        :collapse="windowWidth < 1200 ? true : false"
         @open="handleOpen"
         @close="handleClose"
         background-color="#545c64"
@@ -65,12 +65,16 @@ export default {
   name: 'navmenu',
   data () {
     return {
-      isCollapse: false
+      windowWidth: window.innerWidth
     }
   },
-  created () {
-    window.addEventListener('resize', this.detectWindowWidth)
+
+  mounted () {
+    window.onresize = () => {
+      this.windowWidth = window.innerWidth
+    }
   },
+
   methods: {
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -80,13 +84,6 @@ export default {
     },
     signout () {
       this.$emit('signout')
-    },
-    detectWindowWidth () {
-      if (window.innerWidth < 1200) {
-        this.isCollapse = true
-      } else {
-        this.isCollapse = false
-      }
     }
   }
 }

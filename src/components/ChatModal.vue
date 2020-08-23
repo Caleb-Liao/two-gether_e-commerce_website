@@ -3,7 +3,7 @@
     title="智慧線上客服笨笨^_^"
     :visible.sync="drawer"
     :before-close="closeModal"
-    :size="size">
+    size="100%">
     <div>
       <p>
         <span>笨笨：</span>
@@ -26,8 +26,7 @@ export default {
     return {
       tempMsg: '',
       msgBox: [],
-      keyboardBtn: true,
-      size: '25%'
+      keyboardBtn: true
     }
   },
 
@@ -36,10 +35,6 @@ export default {
       type: Boolean,
       required: true
     }
-  },
-
-  created () {
-    window.addEventListener('resize', this.detectWindowWidth)
   },
 
   updated () {
@@ -63,14 +58,6 @@ export default {
     closeModal () {
       this.$emit('close-modal')
       this.keyboardBtn = true
-    },
-
-    detectWindowWidth () {
-      if (window.innerWidth < 1200) {
-        this.size = '80%'
-      } else {
-        this.size = '25%'
-      }
     }
   }
 }
@@ -81,19 +68,22 @@ export default {
     animation: rtl-drawer-out 0s;
   }
   .el-drawer__wrapper{
+    left: auto;
+    right: 0;
+    width: 25%;
+    @media(max-width: 768px){
+      width: 80%;
+    }
     &::after{
       content: "";
       position: absolute;
       top: 0;
       bottom: 0;
       right: 0;
-      width: 25%;
+      width: 100%;
       backdrop-filter: blur(10px);
       background-color: rgba(165, 154, 150, 0.8);
       z-index: -1;
-      @media(max-width: 1200px){
-        width: 80%;
-      }
     }
   }
   .el-drawer{

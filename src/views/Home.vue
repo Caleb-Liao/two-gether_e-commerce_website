@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <button class="sidebarBtn" @click="sidebarIsOpen = true" :class="{'sidebarBtn_open':sidebarIsOpen == false}">open</button>
+    <button class="sidebarBtn" @click="sidebarMobileClose = false" :class="{'sidebarBtn_open':sidebarMobileClose == true}">open</button>
     <transition name="sidebar">
-      <div class="sidebar" v-if="sidebarIsOpen == true">
-        <button class="sidebarBtn" @click="sidebarIsOpen = false" :class="{'sidebarBtn_close':sidebarIsOpen == true}">close</button>
+      <div class="sidebar" :class="{'sidebarMobile':sidebarMobileClose}">
+        <button class="sidebarBtn" @click="sidebarMobileClose = true" :class="{'sidebarBtn_close':sidebarMobileClose == false}">close</button>
         <div class="logo">
           <div style="display:flex">
             <div><img src="@/assets/logo.png" alt=""></div>
@@ -46,7 +46,7 @@
         </div>
         <div class="information">
           <ul class="icon">
-            <li><a href=""><i class="fab fa-github fa-lg"></i></a></li>
+            <li><a href="https://github.com/Caleb-Liao/two-gether_e-commerce_website"><i class="fab fa-github fa-lg"></i></a></li>
             <li><a href=""><i class="fab fa-facebook fa-lg"></i></a></li>
             <li><a href=""><i class="fab fa-instagram fa-lg"></i></a></li>
           </ul>
@@ -85,12 +85,11 @@ export default {
         { name: '加購區', value: 'others' }
       ],
       cartNum: 0,
-      sidebarIsOpen: true
+      sidebarMobileClose: true
     }
   },
 
   created () {
-    window.addEventListener('resize', this.detectWindowWidth)
     this.getCartNum()
     this.$bus.$on('updateCartNum', () => this.getCartNum())
   },
@@ -103,14 +102,6 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
-    },
-
-    detectWindowWidth () {
-      if (window.innerWidth <= 768) {
-        this.sidebarIsOpen = false
-      } else {
-        this.sidebarIsOpen = true
-      }
     }
   }
 }
@@ -136,7 +127,7 @@ export default {
       transition: all 1s;
     }
     .sidebar-enter, .sidebar-leave-to{
-      transform: translateX(-100px);
+      transform: translateY(-100px);
       opacity: 0;
     }
   }
@@ -160,6 +151,12 @@ export default {
       @media(max-width: 768px){
         display: block;
       }
+    }
+  }
+
+  .sidebarMobile{
+    @media(max-width: 768px){
+      display: none;
     }
   }
 
