@@ -63,7 +63,7 @@ export default {
   .orderPage{
     padding: 100px 120px 100px 80px;
     @media(max-width: 768px){
-      padding: 100px 30px
+      padding: 100px 30px 30px 30px;
     }
     .orderId{
       font-family: 'Prata';

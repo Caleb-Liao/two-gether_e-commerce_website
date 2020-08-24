@@ -55,6 +55,9 @@ export default {
     position: absolute;
     top: 20vh;
     width: 100%;
+    @media(max-width: 768px){
+      top: 15vh;
+    }
     .el-carousel{
       width: 90%;
       z-index: 0;

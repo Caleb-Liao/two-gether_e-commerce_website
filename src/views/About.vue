@@ -71,7 +71,7 @@
       align-items: center;
       @media(max-width: 768px){
         flex-direction: column;
-        padding: 120px 30px 30px 30px;
+        padding: 100px 30px 30px 30px;
         h5{
           margin: 0;
           margin-bottom: 20px;

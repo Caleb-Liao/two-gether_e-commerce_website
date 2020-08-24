@@ -315,7 +315,7 @@ export default {
   .cartPage{
     padding: 80px 110px;
     @media(max-width: 768px){
-      padding: 80px 30px;
+      padding: 30px 30px 50px 30px;
       width: 100%;
       h2{
         display: none;

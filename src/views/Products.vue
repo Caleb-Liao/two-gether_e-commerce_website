@@ -243,7 +243,8 @@ export default {
       margin-bottom: 120px;
       @media(max-width: 768px){
         flex-direction: column;
-        padding-top: 120px;
+        padding-top: 100px;
+        margin-bottom: 90px;
         select{
           margin-top: 20px;
         }
