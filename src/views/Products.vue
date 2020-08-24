@@ -223,9 +223,10 @@ export default {
     padding: 100px 130px 80px 100px;
     position: relative;
     @media(max-width: 768px){
-      padding: 0 50px;
+      padding: 0 50px 50px 50px;
     }
     .smallTitle{
+      font-family: 'Prata';
       color: #a59a96;
       position: absolute;
       top: 40px;
@@ -235,6 +236,7 @@ export default {
       }
     }
     .head{
+      font-family: 'Prata';
       color: #a59a96;
       display: flex;
       justify-content: space-between;
@@ -253,6 +255,7 @@ export default {
         font-size: 18px;
         border: solid 1px #d6cbc7;
         outline: none;
+        font-family: "Noto Sans TC"
       }
       option{
         border: 1px solid !important;

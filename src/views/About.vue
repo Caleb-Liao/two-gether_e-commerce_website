@@ -63,6 +63,7 @@
 
 <style lang="scss">
   .aboutPage{
+    font-family: 'Noto Serif TC';
     color:#4b403c;
     .el-row{
       padding: 120px 80px 100px 100px;
@@ -93,6 +94,7 @@
   }
   .ourStory{
     h5{
+      font-family: 'Prata', serif;
       font-style: italic;
     }
     p{
@@ -108,6 +110,7 @@
   }
   .joinUs{
     h5{
+      font-family: 'Prata', serif;
       margin-left: 60px;
       font-style: italic;
     }
@@ -129,6 +132,7 @@
   }
   .commitment{
     h5{
+      font-family: 'Prata', serif;
       font-style: italic;
     }
     h3{

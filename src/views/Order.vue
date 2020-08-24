@@ -66,6 +66,8 @@ export default {
       padding: 100px 30px
     }
     .orderId{
+      font-family: 'Prata';
+      font-style: italic;
       margin-left: 2em;
       margin-top: 20px;
       word-wrap:break-word;
@@ -90,6 +92,9 @@ export default {
         @media(max-width: 768px){
           width: 50%;
           margin-bottom: 30px;
+          &:last-child:nth-child(3n - 1){
+            margin-right: 0;
+          }
         }
         @media(max-width: 550px){
           width: 80%;

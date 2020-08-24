@@ -5,14 +5,13 @@
 </template>
 
 <style lang="scss">
-  html,body {
-    height: 100%;
-  }
   #app{
+    border-right: 2px solid #F5F5F5;
+    border-left: 2px solid #F5F5F5;
     width: 1440px;
     height: 100%;
     margin: 0 auto;
-    font-family: "Microsoft YaHei","Microsoft JhengHei",sans-serif;
+    font-family: "Noto Sans TC","Microsoft YaHei","Microsoft JhengHei",sans-serif;
     @media(max-width: 768px){
       width: 100%;
     }

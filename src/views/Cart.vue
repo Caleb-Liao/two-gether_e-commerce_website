@@ -110,17 +110,18 @@
             <img src="@/assets/icon/creditcard2White.svg" alt="" >
           </div>
           <div class="line3-3">
-            <img src="@/assets/icon/send.svg" alt="" >
+            <img src="@/assets/icon/send2.svg" alt="" >
           </div>
         </div>
         <div class="complete">
           <h3>您的訂單已完成！</h3>
           <div class="content">
-            <p>恭喜您已完成訂單，您的訂單編號為：{{orderId}}<br>
+            <p>恭喜您已完成訂單，您的訂單編號為：<br>
+            {{orderId}}<br>
             我們會在活動當天前七天聯絡您討論當天內容，<br>
             若是有需要的話也可以直接連絡我們！<br>
             您可以在我的訂單中查詢您的訂單，<br>
-            若是要修改或刪除訂單請直接連絡我們。<br>
+            若要修改或刪除訂單請直接連絡我們。<br>
             以下有幾點注意事項要提醒您：</p>
             <div style="text-decoration:underline;margin-top:2em">
               <p>我們不會向邊友透漏您的個資<br>
@@ -314,8 +315,11 @@ export default {
   .cartPage{
     padding: 80px 110px;
     @media(max-width: 768px){
-      padding: 0;
+      padding: 80px 30px;
       width: 100%;
+      h2{
+        display: none;
+      }
     }
     .line1{
       width: 100%;
@@ -330,6 +334,60 @@ export default {
         border: solid 1px #a59a96;
         background-color: white;
         padding: 5px;
+      }
+    }
+    .el-table__header-wrapper{
+      border-bottom: 1px solid #ada39f;
+    }
+    .el-table{
+      font-size: 18px;
+      td{
+        color: #a59a96;
+      }
+      .el-image{
+        background-color: #f7f5f4;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        cursor:pointer;
+        img{
+          transform: translateY(20%);
+          width: 60px;
+        }
+      }
+    }
+    .cost{
+      border-top: 1px solid #ada39f;
+      border-bottom: 1px solid #ada39f;
+      padding: 30px 50px;
+      line-height: 2em;
+      font-size: 18px;
+      color: #a59a96;
+      :nth-of-type(1),:nth-of-type(2),:nth-of-type(3){
+        display: flex;
+        justify-content: space-between;
+      }
+      .el-input__inner{
+        font-family: "Noto Sans TC";
+        font-size: 16px;
+        padding: 0 10px;
+        color: #a59a96;
+        border: solid 1px #dfdbda;
+      }
+    }
+    .el-button{
+      font-family: "Noto Sans TC";
+      height: 32px;
+      color: #a59a96;
+      border-radius: 16px;
+      border: solid 1px #d6cbc7;
+      padding: 0 10px;
+      line-height: 32px;
+      float: right;
+      margin-top: 20px;
+      img{
+        transform: translateY(5px);
+        margin-left: 5px;
       }
     }
     .line2{
@@ -367,79 +425,41 @@ export default {
         }
       }
     }
-    .el-table__header-wrapper{
-      border-bottom: 1px solid #ada39f;
-    }
-    td{
-      color: #a59a96 !important;
-    }
-    .el-image{
-      background-color: #f7f5f4;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      cursor:pointer;
-      img{
-        transform: translateY(20%);
-        width: 60px;
-      }
-    }
-    .cost{
-      border-top: 1px solid #ada39f;
-      border-bottom: 1px solid #ada39f;
-      padding: 30px 50px;
-      line-height: 2em;
-      font-size: 18px;
-      color: #a59a96;
-      :nth-of-type(1),:nth-of-type(2),:nth-of-type(3){
-        display: flex;
-        justify-content: space-between;
-      }
-      .el-input__inner{
-        font-size: 16px;
-        padding: 0 10px;
-        color: #a59a96;
-        border: solid 1px #dfdbda;
-      }
-    }
-    .el-button{
-      height: 32px;
-      color: #a59a96;
-      border-radius: 16px;
-      border: solid 1px #d6cbc7;
-      padding: 0 10px;
-      line-height: 32px;
-      float: right;
-      margin-top: 20px;
-      img{
-        transform: translateY(5px);
-        margin-left: 5px;
-      }
-    }
     .el-form{
       margin-top: 100px;
       border-top: 1px solid #ada39f;
       border-bottom: 1px solid #ada39f;
       padding: 50px 0 30px 28%;
+      @media (max-width: 768px) {
+        padding-left: 0;
+      }
       label{
         color: #a59a96;
         font-size: 18px;
       }
       .el-input__inner{
         width: 50%;
+        @media (max-width: 768px) {
+          width: 100%;;
+        }
       }
       .el-select{
         display: block;
-      }
-      .el-input__suffix{
-        position: absolute;
-        left: -5%;
+        .el-input__suffix{
+          position: absolute;
+          left: -5%;
+          @media (max-width: 768px) {
+            left: 85%;
+          }
+        }
       }
       .el-textarea__inner{
         width: 50%;
+        @media (max-width: 768px) {
+          width: 100%;;
+        }
       }
     }
-
     .line3{
       position: relative;
       .line3-1{
@@ -481,13 +501,15 @@ export default {
           transform: translateY(-17px);
           border-radius: 50%;
           border: solid 1px #a59a96;
-          padding: 8px;
+          padding: 5px;
         }
       }
     }
-
     .complete{
-      margin: 100px 0 0 50px;
+      margin: 100px 0 0 30px;
+       @media (max-width: 768px) {
+          margin-left: 0;
+        }
       h3{
         font-size: 24px;
         color: #4b403c;
@@ -496,6 +518,9 @@ export default {
         color: #a59a96;
         line-height: 1.8em;
         margin: 50px 0 0 80px;
+        @media (max-width: 768px) {
+          margin-left: 0;
+        }
       }
     }
   }

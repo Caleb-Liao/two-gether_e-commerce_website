@@ -1,22 +1,29 @@
 <template>
   <div class="home">
-    <button class="sidebarBtn" @click="sidebarMobileClose = false" :class="{'sidebarBtn_open':sidebarMobileClose == true}">open</button>
-    <transition name="sidebar">
-      <div class="sidebar" :class="{'sidebarMobile':sidebarMobileClose}">
-        <button class="sidebarBtn" @click="sidebarMobileClose = true" :class="{'sidebarBtn_close':sidebarMobileClose == false}">close</button>
+      <div class="sidebar">
+        <div class="sidebarBtn" @click="menuMobileClose = !menuMobileClose">
+          <img v-if="menuMobileClose" src="@/assets/icon/sidebarClose.svg" alt="">
+          <img v-if="!menuMobileClose" src="@/assets/icon/sidebarOpen.svg" alt="">
+        </div>
         <div class="logo">
           <div style="display:flex">
-            <div><img src="@/assets/logo.png" alt=""></div>
+            <div class="logoPC"><img src="@/assets/logo.png" alt=""></div>
+            <div class="logoMobile"><img src="@/assets/logoMobile.png" alt=""></div>
             <h1>Two - <br>Gether</h1>
           </div>
-          <el-badge :value="cartNum" style="float:right;">
+          <el-badge :value="cartNum" class="cartPC">
             <router-link to="/cart" class="cartBtn">我的購物車
               <img src="@/assets/icon/cart.svg" alt="">
               <img src="@/assets/icon/cartWhite.svg" alt="">
             </router-link>
           </el-badge>
+          <div class="cartMobile">
+            <router-link to="/cart">
+              <img src="@/assets/icon/cart2.svg" alt="">
+            </router-link>
+          </div>
         </div>
-        <div class="menu">
+        <div class="menu" :class="{'menuMobile':menuMobileClose}">
           <ul>
             <li>
               <router-link to="/" exact>首頁</router-link>
@@ -57,7 +64,6 @@
           <p>&copy; 2020 TwoGether公司 版權所有</p>
         </div>
       </div>
-    </transition>
     <div class="container">
       <router-view/>
     </div>
@@ -85,7 +91,7 @@ export default {
         { name: '加購區', value: 'others' }
       ],
       cartNum: 0,
-      sidebarMobileClose: true
+      menuMobileClose: true
     }
   },
 
@@ -114,8 +120,6 @@ export default {
     box-sizing: border-box;
   }
   .home{
-    border-right: 2px solid #F5F5F5;
-    border-left: 2px solid #F5F5F5;
     font-size: 18px;
     display: flex;
     .router-link-active{
@@ -123,40 +127,17 @@ export default {
         background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
         padding: 2px 1px;
     }
-    .sidebar-enter-active, .sidebar-leave-active{
-      transition: all 1s;
-    }
-    .sidebar-enter, .sidebar-leave-to{
-      transform: translateY(-100px);
-      opacity: 0;
-    }
   }
-
   .sidebarBtn{
-    transform: translateX(-100%);
     display: none;
-    &_open{
-      position: fixed;
-      top: 10px;
-      left: 50px;
-      @media(max-width: 768px){
-        display: block;
-        z-index: 1;
-      }
-    }
-    &_close{
-      position: absolute;
-      top: 50%;
-      left: 300px;
-      @media(max-width: 768px){
-        display: block;
-      }
-    }
-  }
-
-  .sidebarMobile{
+    position: absolute;
+    width: 50px;
+    height: 80px;
+    top: 30px;
+    left: 39px;
+    cursor: pointer;
     @media(max-width: 768px){
-      display: none;
+      display: block;
     }
   }
 
@@ -168,59 +149,129 @@ export default {
     background-color: white;
     @media (max-width: 768px) {
       z-index: 1;
+      width: 100%;
+      height: 80px;
     }
     .logo{
       height: 25%;
-      padding: 30px 30px 30px 30px;
+      padding: 30px;
+      @media(max-width: 768px){
+        display: flex;
+        justify-content: center;
+        padding: 15px 0 0 0;
+        height: 80px;
+        box-shadow: 10px 0 20px 0 #a59a96;
+      }
       h1{
+        font-family: 'Prata', serif;
         font-size: 48px;
         margin: 0 0 30px 15px;
         color: #4b403c;
-      }
-      .cartBtn{
-        font-size: 16px;
-        color: #a59a96;
-        text-decoration: none;
-        border-radius: 16px;
-        border: solid 1px #d6cbc7;
-        padding: 5px 10px;
-        img{
-          transform: translateY(2px);
-        }
-        img:nth-of-type(1){
-          display: inline;
-        }
-        img:nth-of-type(2){
-          display: none;
+        @media (max-width:768px) {
+          font-size:28px;
+          margin-bottom: 0;
         }
       }
-      .router-link-active{
-        color: white;
-        background: #d6cbc7;
-        border-radius: 16px;
-        img:nth-of-type(1){
+      .cartPC{
+        float: right;
+        @media (max-width: 768px) {
           display: none;
         }
-        img:nth-of-type(2){
-          display: inline;
+        .cartBtn{
+          font-size: 16px;
+          color: #a59a96;
+          text-decoration: none;
+          border-radius: 16px;
+          border: solid 1px #d6cbc7;
+          padding: 5px 10px;
+          img{
+            transform: translateY(2px);
+          }
+          img:nth-of-type(1){
+            display: inline;
+          }
+          img:nth-of-type(2){
+            display: none;
+          }
         }
+        .router-link-active{
+          color: white;
+          background: #d6cbc7;
+          border-radius: 16px;
+          img:nth-of-type(1){
+            display: none;
+          }
+          img:nth-of-type(2){
+            display: inline;
+          }
+        }
+      }
+      .cartMobile{
+        display: none;
+        .router-link-active{
+          background: none;
+        }
+        @media (max-width:768px) {
+          position: fixed;
+          right: 0;
+          bottom: 5%;
+          width: 35px;
+          height: 32px;
+          border-radius: 16px 0 0 16px;
+          box-shadow: 0 0 20px 0 #a59a96;
+          background-color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 3;
+        }
+      }
+    }
+
+    .logoPC{
+      @media (max-width: 768px){
+        display: none;
+      }
+    }
+
+    .logoMobile{
+      @media (min-width: 768px){
+        display: none;
+      }
+    }
+
+    .menuMobile{
+      @media(max-width: 768px){
+        display: none;
       }
     }
 
     .menu{
       height: 63%;
       padding: 30px;
-      display: flex;
       flex-direction: column;
       align-items: flex-start;
+      @media (max-width: 768px) {
+        background-color: white;
+        height: auto;
+        box-shadow: 0 20px 20px -20px #a59a96;
+      }
       a{
         color: #606266;
         text-decoration: none;
+        @media (max-width: 768px) {
+          margin-left: 5%;
+        }
       }
       h5{
+        font-family: 'Prata', serif;
         font-size: 14px;
         color:#606266;
         opacity: 0.5;
+        margin: 5px 0 0 5px;
+        @media (max-width: 768px) {
+          margin-left: 10px;
+        }
       }
       ul{
         width: 100%;
@@ -234,10 +285,13 @@ export default {
         &:hover{
           transform: translateX(2px);
         }
-      }
-      .el-badge{
-        a{
-          font-size:22px;
+        @media (max-width:768px) {
+          width:100%;
+          border-bottom:1px solid rgba(223,229,218,0.5);
+          padding: 10px 0;
+          h5{
+            display: inline;
+          }
         }
       }
       .products{
@@ -292,6 +346,9 @@ export default {
       font-size: 12px;
       padding-left: 30px;
       color: #606266;
+      @media(max-width: 768px){
+        display: none;
+      }
       a{
         color: #606266;
         text-decoration: none;
@@ -310,8 +367,10 @@ export default {
     width: 100%;
     margin-left: 300px;
     position: relative;
+    background-color: white;
     @media(max-width:768px){
       margin-left: 0;
+      margin-top: 80px;
     }
     .title{
       position: absolute;
