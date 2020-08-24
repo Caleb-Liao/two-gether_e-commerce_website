@@ -98,6 +98,7 @@ export default {
 
     .el-drawer__header{
       color: white;
+      padding-right:0
     }
 
     .el-drawer__body{

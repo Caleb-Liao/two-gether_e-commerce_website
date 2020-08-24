@@ -6,11 +6,13 @@
           <img v-if="!menuMobileClose" src="@/assets/icon/sidebarOpen.svg" alt="">
         </div>
         <div class="logo">
-          <div style="display:flex">
-            <div class="logoPC"><img src="@/assets/logo.png" alt=""></div>
-            <div class="logoMobile"><img src="@/assets/logoMobile.png" alt=""></div>
-            <h1>Two - <br>Gether</h1>
-          </div>
+          <router-link to="/" exact>
+            <div style="display:flex">
+              <div class="logoPC"><img src="@/assets/logo.png" alt=""></div>
+              <div class="logoMobile"><img src="@/assets/logoMobile.png" alt=""></div>
+              <h1>Two - <br>Gether</h1>
+            </div>
+          </router-link>
           <el-badge :value="cartNum" class="cartPC">
             <router-link to="/cart" class="cartBtn">我的購物車
               <img src="@/assets/icon/cart.svg" alt="">
@@ -24,7 +26,7 @@
           </div>
         </div>
         <div class="menu" :class="{'menuMobile':menuMobileClose}">
-          <ul>
+          <ul @click="menuMobileClose = true">
             <li>
               <router-link to="/" exact>首頁</router-link>
               <h5>Home Page</h5>
@@ -34,7 +36,7 @@
               <h5>About Us</h5>
             </li>
             <li class="products" @click="$bus.$emit('reshowImg')">
-              <router-link :to="`/products/all`">服務項目</router-link>
+              <router-link to="/products/all">服務項目</router-link>
               <h5>Our Service</h5>
               <ul class="product">
                 <li to="/products" v-for="category in categories" :key="category.name">
@@ -122,11 +124,6 @@ export default {
   .home{
     font-size: 18px;
     display: flex;
-    .router-link-active{
-        color: #a59a96;
-        background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
-        padding: 2px 1px;
-    }
   }
   .sidebarBtn{
     display: none;
@@ -161,6 +158,9 @@ export default {
         padding: 15px 0 0 0;
         height: 80px;
         box-shadow: 10px 0 20px 0 #a59a96;
+      }
+      a{
+        text-decoration: none;
       }
       h1{
         font-family: 'Prata', serif;
@@ -208,9 +208,6 @@ export default {
       }
       .cartMobile{
         display: none;
-        .router-link-active{
-          background: none;
-        }
         @media (max-width:768px) {
           position: fixed;
           right: 0;
@@ -247,6 +244,11 @@ export default {
     }
 
     .menu{
+      .router-link-active{
+        color: #a59a96;
+        background: linear-gradient(transparent 40%,rgba(255,255,255,0) 40%, #ffd571 90%,transparent 95%);
+        padding: 2px 1px;
+      }
       height: 63%;
       padding: 30px;
       flex-direction: column;
