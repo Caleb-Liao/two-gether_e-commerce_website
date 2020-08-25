@@ -81,6 +81,7 @@ export default {
 
   created () {
     this.getProducts()
+    // 讓圖片每次點選選單都能重新有動畫效果
     this.$bus.$on('reshowImg', () => { this.imgShow = false })
   },
 
@@ -220,7 +221,7 @@ export default {
     opacity: 0;
   }
   .frontendProductsPage{
-    padding: 100px 130px 80px 100px;
+    padding: 100px 130px 50px 100px;
     position: relative;
     @media(max-width: 768px){
       padding: 0 50px 50px 50px;

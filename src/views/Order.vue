@@ -5,18 +5,19 @@
     <p class="orderId">{{order.id}}</p>
     <div class="products">
       <div v-for="item in order.products" :key="item.product.imageUrl[0]" class="product">
-        <img :src="item.product.imageUrl[0]" alt="">
+        <el-image :src="item.product.imageUrl[0]" alt=""></el-image>
         <div class="productTitle">
           <h3>{{item.product.title}}</h3>
           <span>&nbsp;</span>
           <h4>{{item.product.category}}</h4>
+          <h5>—{{item.product.price}}$</h5>
         </div>
-        <p class="productContent">{{item.product.content}}</p>
-        <p class="productDescription">—{{item.product.description}}</p>
-        <p class="productPrice"><span>—</span>{{item.product.price}}$</p>
       </div>
     </div>
     <div class="orderOthers">
+      <p>訂購人：{{order.user.name}}</p>
+      <p>聯絡電話：{{order.user.tel}}</p>
+      <p>電子郵件：{{order.user.email}}</p>
       <p v-if="order.message">備註：{{order.message}}</p>
       <p v-if="!order.message">備註：無</p>
       <p v-if="order.coupon">使用優惠券：{{order.coupon.title}}</p>
@@ -34,21 +35,35 @@
 export default {
   data () {
     return {
-      order: {},
+      order: {
+        user: {}
+      },
+      orderId: '',
       loading: false
     }
   },
 
   created () {
-    this.getOrder()
+    this.getOrderId()
   },
 
   methods: {
-    getOrder () {
+    getOrderId () {
       this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders?paged=99999`
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders`
       this.axios.get(api).then((response) => {
-        this.order = response.data.data[0]
+        this.orderId = response.data.data[0].id
+        this.getOrder()
+      }).catch((err) => {
+        console.log(err)
+        this.loading = false
+      })
+    },
+
+    getOrder () {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${this.orderId}`
+      this.axios.get(api).then((response) => {
+        this.order = response.data.data
         this.loading = false
       }).catch((err) => {
         console.log(err)
@@ -61,7 +76,7 @@ export default {
 
 <style lang="scss">
   .orderPage{
-    padding: 100px 120px 100px 80px;
+    padding: 100px 120px 50px 80px;
     @media(max-width: 768px){
       padding: 100px 30px 30px 30px;
     }
@@ -72,77 +87,85 @@ export default {
       margin-top: 20px;
       word-wrap:break-word;
       word-break:break-all;
+      @media(max-width: 768px){
+        margin-left: 0;
+      }
     }
     .products{
-      padding: 40px 0 40px 80px;
+      padding: 40px 0;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
       @media(max-width: 768px){
-        padding-left: 0;
-        flex-direction: column;
-        align-items: center;
+        padding-bottom: 0;
       }
       .product{
-        width: 26%;
-        &:last-child:nth-child(3n - 1){
-          // 最後一行如果不滿三個且只有兩個時要調整位置
-          margin-right: 36%;
-        }
+        width: 50%;
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 30px;
         @media(max-width: 768px){
-          width: 50%;
-          margin-bottom: 30px;
-          &:last-child:nth-child(3n - 1){
-            margin-right: 0;
-          }
-        }
-        @media(max-width: 550px){
-          width: 80%;
+          width: 100%;
         }
       }
-      img{
-        width: 100%;
-        height: 300px;
+      .el-image{
+        background-color: #f7f5f4;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        img{
+          width: 60px;
+          transform: translateY(10px);
+        }
+        @media (max-width: 768px) {
+          width: 60px;
+          height: 60px;
+          img{
+            width: 50px;
+          }
+        }
       }
       .productTitle{
         display: flex;
-        justify-content: center;
-        margin: 20px 0;
+        margin-left: 30px;
+        @media (max-width: 768px) {
+          margin-left: 10px;
+        }
         h3{
           font-size: 28px;
           color: #4b403c;
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
         }
         span{
-          width: 40px;
-          height: 40px;
+          width: 30px;
+          height: 30px;
           border-bottom: 1px solid #000;
-          transform:rotate(-45deg) translateY(-40%)
+          transform:rotate(-45deg) translateY(-30%);
+          @media (max-width: 768px) {
+            width: 20px;
+            height: 20px;
+          }
         }
         h4{
           color: #a59a96;
-          transform: translateY(20px);
+          margin-left: 10px;
+          transform: translateY(10px);
+          @media (max-width: 768px) {
+            transform: translateY(0);
+          }
         }
-      }
-      .productContent{
-        line-height: 1.33em;
-        color: #4b403c;
-        font-style: italic;
-      }
-      .productDescription{
-        font-size: 14px;
-        line-height: 1.7em;
-        color: #a59a96;
-        font-style: italic;
-        margin: 20px 0;
-      }
-      .productPrice{
-        text-align: end;
-        font-size: 28px;
-        font-style: italic;
-        span{
-          color: #a59a96;
-          margin-right: 10px;
-          font-size: 20px;
+        h5{
+          color: #4b403c;
+          font-size: 16px;
+          margin-left: 30px;
+          transform: translateY(10px);
+          @media (max-width: 768px) {
+            margin-left: 10px;
+            transform: translateY(0);
+          }
         }
       }
     }

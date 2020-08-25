@@ -28,12 +28,12 @@
 
         <transition name="fade">
           <div class="menu" v-show="sidebarOpen">
-            <ul @click="closeMenu">
-              <li>
+            <ul>
+              <li @click="closeMobileMenu">
                 <router-link to="/" exact>首頁</router-link>
                 <h5>Home Page</h5>
               </li>
-              <li>
+              <li @click="closeMobileMenu">
                 <router-link to="/about">關於我們</router-link>
                 <h5>About Us</h5>
               </li>
@@ -41,11 +41,11 @@
                 <router-link to="/products/all">服務項目</router-link>
                 <h5>Our Service</h5>
                 <ul class="product">
-                  <li to="/products" v-for="category in categories" :key="category.name">
+                  <li to="/products" v-for="category in categories" :key="category.name" @click="closeMobileMenu">
                   <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
                 </ul>
               </li>
-              <li>
+              <li @click="closeMobileMenu">
                 <router-link to="/order">我的訂單</router-link>
                 <h5>My Order</h5>
               </li>
@@ -106,9 +106,9 @@ export default {
   created () {
     this.getCartNum()
     this.$bus.$on('updateCartNum', () => this.getCartNum())
-    this.menuOpen()
+    this.menuOpenByWidth()
     window.onresize = lodash.debounce(() => {
-      this.menuOpen()
+      this.menuOpenByWidth()
     }, 500)
   },
 
@@ -122,7 +122,7 @@ export default {
       })
     },
 
-    menuOpen () {
+    menuOpenByWidth () {
       this.windowWidth = window.innerWidth
       if (this.windowWidth <= 768) {
         this.sidebarOpen = false
@@ -131,7 +131,7 @@ export default {
       }
     },
 
-    closeMenu () {
+    closeMobileMenu () {
       if (this.windowWidth <= 768) {
         this.sidebarOpen = false
       }
@@ -326,6 +326,7 @@ export default {
       }
       .products{
         position: relative;
+        // hover在mobile裝置上會變成click
         &:hover>.product{
           display: block;
         }
@@ -339,6 +340,17 @@ export default {
         top: -55px;
         box-shadow: 0 0 10px 0 rgba(165, 154, 150, 0.5);
         padding: 5px 15px;
+        @media(max-width: 768px){
+          font-size: 13px;
+          line-height: 1.7em;
+          position: static;
+          box-shadow: none;
+          color: rgba(128, 129, 133, 0.8);
+          margin-left: 10px;
+          &::after,&::before{
+            display: none;
+          };
+        }
         &::after{
           content: "";
           position: absolute;
