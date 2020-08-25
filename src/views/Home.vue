@@ -1,9 +1,9 @@
 <template>
   <div class="home">
       <div class="sidebar">
-        <div class="sidebarBtn" @click="menuMobileClose = !menuMobileClose">
-          <img v-if="menuMobileClose" src="@/assets/icon/sidebarClose.svg" alt="">
-          <img v-if="!menuMobileClose" src="@/assets/icon/sidebarOpen.svg" alt="">
+        <div class="sidebarBtn" @click="sidebarOpen = !sidebarOpen">
+          <img v-if="sidebarOpen" src="@/assets/icon/sidebarOpen.svg" alt="">
+          <img v-if="!sidebarOpen" src="@/assets/icon/sidebarClose.svg" alt="">
         </div>
         <div class="logo">
           <router-link to="/" exact>
@@ -25,34 +25,38 @@
             </router-link>
           </div>
         </div>
-        <div class="menu" :class="{'menuMobile':menuMobileClose}">
-          <ul @click="menuMobileClose = true">
-            <li>
-              <router-link to="/" exact>首頁</router-link>
-              <h5>Home Page</h5>
-            </li>
-            <li>
-              <router-link to="/about">關於我們</router-link>
-              <h5>About Us</h5>
-            </li>
-            <li class="products" @click="$bus.$emit('reshowImg')">
-              <router-link to="/products/all">服務項目</router-link>
-              <h5>Our Service</h5>
-              <ul class="product">
-                <li to="/products" v-for="category in categories" :key="category.name">
-                <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
-              </ul>
-            </li>
-            <li>
-              <router-link to="/order">我的訂單</router-link>
-              <h5>My Order</h5>
-            </li>
-            <li>
-              <a href="#" @click="drawer = true">線上客服</a>
-              <h5>Customer Service</h5>
-            </li>
-          </ul>
-        </div>
+
+        <transition name="fade">
+          <div class="menu" v-show="sidebarOpen">
+            <ul @click="closeMenu">
+              <li>
+                <router-link to="/" exact>首頁</router-link>
+                <h5>Home Page</h5>
+              </li>
+              <li>
+                <router-link to="/about">關於我們</router-link>
+                <h5>About Us</h5>
+              </li>
+              <li class="products" @click="$bus.$emit('reshowImg')">
+                <router-link to="/products/all">服務項目</router-link>
+                <h5>Our Service</h5>
+                <ul class="product">
+                  <li to="/products" v-for="category in categories" :key="category.name">
+                  <router-link :to="`/products/${category.value}`">/ {{category.name}}</router-link></li>
+                </ul>
+              </li>
+              <li>
+                <router-link to="/order">我的訂單</router-link>
+                <h5>My Order</h5>
+              </li>
+              <li>
+                <a href="#" @click="drawer = true">線上客服</a>
+                <h5>Customer Service</h5>
+              </li>
+            </ul>
+          </div>
+        </transition>
+
         <div class="information">
           <ul class="icon">
             <li><a href="https://github.com/Caleb-Liao/two-gether_e-commerce_website"><i class="fab fa-github fa-lg"></i></a></li>
@@ -75,6 +79,7 @@
 
 <script>
 import ChatModal from '@/components/ChatModal'
+import lodash from 'lodash'
 
 export default {
   components: {
@@ -93,13 +98,18 @@ export default {
         { name: '加購區', value: 'others' }
       ],
       cartNum: 0,
-      menuMobileClose: true
+      sidebarOpen: true,
+      windowWidth: window.innerWidth
     }
   },
 
   created () {
     this.getCartNum()
     this.$bus.$on('updateCartNum', () => this.getCartNum())
+    this.menuOpen()
+    window.onresize = lodash.debounce(() => {
+      this.menuOpen()
+    }, 500)
   },
 
   methods: {
@@ -110,6 +120,21 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+
+    menuOpen () {
+      this.windowWidth = window.innerWidth
+      if (this.windowWidth <= 768) {
+        this.sidebarOpen = false
+      } else {
+        this.sidebarOpen = true
+      }
+    },
+
+    closeMenu () {
+      if (this.windowWidth <= 768) {
+        this.sidebarOpen = false
+      }
     }
   }
 }
@@ -139,15 +164,24 @@ export default {
   }
 
   .sidebar{
+    .fade-enter-active, .fade-leave-active {
+      transition: all 1s;
+    }
+    .fade-enter, .fade-leave-to{
+      transform: translateY(-50px);
+      opacity: 0;
+    }
     width: 300px;
-    height: 100%;
-    position: fixed;
+    height: 100vh;
+    position: sticky;
+    top: 0;
     border-right: 2px solid #F5F5F5;
     background-color: white;
     @media (max-width: 768px) {
       z-index: 1;
       width: 100%;
       height: 80px;
+      position: fixed;
     }
     .logo{
       height: 25%;
@@ -233,12 +267,6 @@ export default {
 
     .logoMobile{
       @media (min-width: 768px){
-        display: none;
-      }
-    }
-
-    .menuMobile{
-      @media(max-width: 768px){
         display: none;
       }
     }
@@ -367,7 +395,6 @@ export default {
   .container{
     height: 100%;
     width: 100%;
-    margin-left: 300px;
     position: relative;
     background-color: white;
     @media(max-width:768px){

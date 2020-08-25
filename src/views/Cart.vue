@@ -397,7 +397,6 @@ export default {
         height: 1px;
         background-color: #a59a96;
         margin: 30px 0;
-        position: relative;
         img{
           transform: translateY(-17px);
           border-radius: 50%;
@@ -467,7 +466,6 @@ export default {
         height: 1px;
         background-color: #a59a96;
         margin: 30px 0;
-        position: relative;
         img{
           transform: translateY(-17px);
           border-radius: 50%;

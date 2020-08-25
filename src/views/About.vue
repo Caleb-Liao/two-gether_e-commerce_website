@@ -117,7 +117,7 @@
     p{
       margin: 20px 0 0 60px;
       line-height: 1.5em;
-      text-indent: 2rem
+      text-indent: 2em
     }
     span{
       float: right;

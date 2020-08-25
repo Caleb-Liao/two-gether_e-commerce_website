@@ -4,7 +4,7 @@
       <el-menu
         :default-active="$route.path"
         class="el-menu-vertical-demo"
-        :collapse="windowWidth < 1200 ? true : false"
+        :collapse="collapse"
         @open="handleOpen"
         @close="handleClose"
         background-color="#545c64"
@@ -61,18 +61,21 @@
 </template>
 
 <script>
+import lodash from 'lodash'
+
 export default {
   name: 'navmenu',
   data () {
     return {
+      collapse: false,
       windowWidth: window.innerWidth
     }
   },
 
   mounted () {
-    window.onresize = () => {
-      this.windowWidth = window.innerWidth
-    }
+    window.onresize = lodash.debounce(() => {
+      this.collapseOpen()
+    }, 500)
   },
 
   methods: {
@@ -84,6 +87,14 @@ export default {
     },
     signout () {
       this.$emit('signout')
+    },
+    collapseOpen () {
+      this.windowWidth = window.innerWidth
+      if (this.windowWidth <= 1200) {
+        this.collapse = true
+      } else {
+        this.collapse = false
+      }
     }
   }
 }
