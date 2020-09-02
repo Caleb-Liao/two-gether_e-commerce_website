@@ -5,20 +5,11 @@
         :default-active="$route.path"
         class="el-menu-vertical-demo"
         :collapse="collapse"
-        @open="handleOpen"
-        @close="handleClose"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
         router>
         <div>
-          <el-menu-item index="/admin">
-            <i class="el-icon-location"></i>
-            <span slot="title">
-              首頁
-            </span>
-          </el-menu-item>
-
           <el-menu-item index="/admin/products">
             <i class="el-icon-folder"></i>
             <span slot="title">
@@ -37,13 +28,6 @@
             <i class="el-icon-document"></i>
             <span slot="title">
               訂單列表
-            </span>
-          </el-menu-item>
-
-          <el-menu-item index="/admin/test">
-            <i class="el-icon-setting"></i>
-            <span slot="title">
-              模擬下單系統
             </span>
           </el-menu-item>
         </div>
@@ -79,12 +63,6 @@ export default {
   },
 
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    },
     signout () {
       this.$emit('signout')
     },
@@ -99,19 +77,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .navmenu{
-    height: 100%;
-    .el-col{
-      height: 100%
-    }
-    .el-menu-vertical-demo{
-      height: 100%;
-      border-right: solid 0px #e6e6e6;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between
-    }
-  }
-</style>

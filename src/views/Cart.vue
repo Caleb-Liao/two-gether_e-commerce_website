@@ -2,7 +2,7 @@
   <div class="cartPage" v-loading="loading">
     <h2 class="title"><mark class="mark">我的購物車</mark></h2>
 
-      <template v-if="active == 1">
+      <template v-if="active === 1">
         <div class="line1"><img src="@/assets/icon/cart3.svg" alt="" ></div>
         <el-button @click="deleteAll">清空購物車</el-button>
         <el-table :data="cart">
@@ -46,9 +46,9 @@
               v-model="couponCode"
               style="width:120px"
               @keyup.native.enter="sendCouponCode"
-              v-if="coupon == null">
+              v-if="coupon === null">
             </el-input>
-            <span v-if="coupon">-{{couponDiscount}}(-{{couponDiscountRate}} %) 元</span>
+            <span v-if="coupon">-{{ couponDiscount }}(-{{ couponDiscountRate }} %) 元</span>
           </div>
           <div>
             <p>運費 ：</p>
@@ -56,8 +56,8 @@
           </div>
           <div>
             <p>共計 :</p>
-            <span v-if="!coupon">{{cartTotalBefore}} 元</span>
-            <span v-else-if="coupon">{{cartTotalAfter}} 元</span>
+            <span v-if="!coupon">{{ cartTotalBefore }} 元</span>
+            <span v-else-if="coupon">{{ cartTotalAfter }} 元</span>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end">
@@ -66,7 +66,7 @@
         </div>
       </template>
 
-      <template v-if="active == 2">
+      <template v-if="active === 2">
         <div class="line2">
           <div class="line2-1">
             <img src="@/assets/icon/cartWhite2.svg" alt="" >
@@ -101,7 +101,7 @@
         <el-button @click="active--" style="float:left"><img src="@/assets/icon/return.svg" alt="" style="transform:translateX(-5px) translateY(5px)">返回</el-button>
       </template>
 
-      <template v-if="active == 3">
+      <template v-if="active === 3">
         <div class="line3">
           <div class="line3-1">
             <img src="@/assets/icon/cartWhite2.svg" alt="" >
@@ -117,7 +117,7 @@
           <h3>您的訂單已完成！</h3>
           <div class="content">
             <p>恭喜您已完成訂單，您的訂單編號為：<br>
-            {{orderId}}<br>
+            {{ orderId }}<br>
             我們會在活動當天前七天聯絡您討論當天內容，<br>
             若是有需要的話也可以直接連絡我們！<br>
             您可以在我的訂單中查詢您的訂單，<br>
@@ -131,7 +131,11 @@
           </div>
         </div>
       </template>
-      <productmodal :dialog-visible="dialogVisible" @close-modal="dialogVisible = false" ref="frontendProductModal"></productmodal>
+      <productmodal
+        :dialog-visible="dialogVisible"
+        @close-modal="dialogVisible = false"
+        ref="frontendProductModal"
+        @open-modal="dialogVisible = true, loading = false">></productmodal>
     </div>
 </template>
 
@@ -215,8 +219,7 @@ export default {
       this.axios.get(api).then((response) => {
         this.cart = response.data.data
         this.loading = false
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     },
@@ -248,8 +251,7 @@ export default {
       this.axios.delete(api).then((response) => {
         this.getCart()
         this.$bus.$emit('updateCartNum')
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     },
@@ -260,8 +262,7 @@ export default {
       this.axios.delete(api).then((response) => {
         this.getCart()
         this.$bus.$emit('updateCartNum')
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     },
@@ -269,18 +270,12 @@ export default {
     openModal (id) {
       this.loading = true
       this.$refs.frontendProductModal.getProduct(id)
-      setTimeout(() => {
-        this.dialogVisible = true
-        this.loading = false
-      }, 1000)
     },
 
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.sendOrder()
-        } else {
-          console.log('error submit!!')
         }
       })
     },
@@ -290,8 +285,7 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders`
       this.axios.post(api, this.form).then((response) => {
         this.getOrderId()
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     },
@@ -302,224 +296,10 @@ export default {
         this.active++
         this.orderId = response.data.data[0].id
         this.loading = false
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     }
   }
 }
 </script>
-
-<style lang="scss">
-  .cartPage{
-    padding: 80px 110px;
-    @media(max-width: 768px){
-      padding: 30px 30px 50px 30px;
-      width: 100%;
-      h2{
-        display: none;
-      }
-    }
-    .line1{
-      width: 100%;
-      height: 1px;
-      background-image: linear-gradient(to right, #a59a96 0%, #a59a96 50%, transparent 50%);
-      background-size: 20px 1px;
-      background-repeat: repeat-x;
-      margin: 30px 0;
-      img{
-        transform: translateY(-17px);
-        border-radius: 50%;
-        border: solid 1px #a59a96;
-        background-color: white;
-        padding: 5px;
-      }
-    }
-    .el-table__header-wrapper{
-      border-bottom: 1px solid #ada39f;
-    }
-    .el-table{
-      font-size: 18px;
-      td{
-        color: #a59a96;
-      }
-      .el-image{
-        background-color: #f7f5f4;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        cursor:pointer;
-        img{
-          transform: translateY(20%);
-          width: 60px;
-        }
-      }
-    }
-    .cost{
-      border-top: 1px solid #ada39f;
-      border-bottom: 1px solid #ada39f;
-      padding: 30px 50px;
-      line-height: 2em;
-      font-size: 18px;
-      color: #a59a96;
-      :nth-of-type(1),:nth-of-type(2),:nth-of-type(3){
-        display: flex;
-        justify-content: space-between;
-      }
-      .el-input__inner{
-        font-family: "Noto Sans TC";
-        font-size: 16px;
-        padding: 0 10px;
-        color: #a59a96;
-        border: solid 1px #dfdbda;
-      }
-    }
-    .el-button{
-      font-family: "Noto Sans TC";
-      height: 32px;
-      color: #a59a96;
-      border-radius: 16px;
-      border: solid 1px #d6cbc7;
-      padding: 0 10px;
-      line-height: 32px;
-      float: right;
-      margin-top: 20px;
-      img{
-        transform: translateY(5px);
-        margin-left: 5px;
-      }
-    }
-    .line2{
-      position: relative;
-      .line2-1{
-        width: 50%;
-        height: 1px;
-        background-color: #a59a96;
-        margin: 30px 0;
-        img{
-          transform: translateY(-17px);
-          border-radius: 50%;
-          border: solid 1px #a59a96;
-          background-color: #a59a96;
-          padding: 5px;
-        }
-      }
-      .line2-2{
-        width: 50%;
-        height: 1px;
-        background-image: linear-gradient(to right, #a59a96 0%, #a59a96 50%, transparent 50%);
-        background-size: 20px 1px;
-        background-repeat: repeat-x;
-        margin: 30px 0;
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        img{
-          transform: translateY(-17px);
-          border-radius: 50%;
-          border: solid 1px #a59a96;
-          background-color: white;
-          padding: 5px;
-        }
-      }
-    }
-    .el-form{
-      margin-top: 100px;
-      border-top: 1px solid #ada39f;
-      border-bottom: 1px solid #ada39f;
-      padding: 50px 0 30px 28%;
-      @media (max-width: 768px) {
-        padding-left: 0;
-      }
-      label{
-        color: #a59a96;
-        font-size: 18px;
-      }
-      .el-input__inner{
-        width: 50%;
-        @media (max-width: 768px) {
-          width: 100%;;
-        }
-      }
-      .el-select{
-        display: block;
-        .el-input__suffix{
-          position: absolute;
-          left: -5%;
-          @media (max-width: 768px) {
-            left: 85%;
-          }
-        }
-      }
-      .el-textarea__inner{
-        width: 50%;
-        @media (max-width: 768px) {
-          width: 100%;;
-        }
-      }
-    }
-    .line3{
-      position: relative;
-      .line3-1{
-        width: 50%;
-        height: 1px;
-        background-color: #a59a96;
-        margin: 30px 0;
-        img{
-          transform: translateY(-17px);
-          border-radius: 50%;
-          border: solid 1px #a59a96;
-          background-color: #a59a96;
-          padding: 5px;
-        }
-      }
-      .line3-2{
-        width: 50%;
-        height: 1px;
-        background-color: #a59a96;
-        margin: 30px 0;
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        img{
-          transform: translateY(-17px);
-          border-radius: 50%;
-          border: solid 1px #a59a96;
-          background-color: #a59a96;
-          padding: 5px;
-        }
-      }
-      .line3-3{
-        position: absolute;
-        right: 0;
-        top: 0;
-        background-color: white;
-        img{
-          transform: translateY(-17px);
-          border-radius: 50%;
-          border: solid 1px #a59a96;
-          padding: 5px;
-        }
-      }
-    }
-    .complete{
-      margin: 100px 0 0 30px;
-       @media (max-width: 768px) {
-          margin-left: 0;
-        }
-      h3{
-        font-size: 24px;
-        color: #4b403c;
-      }
-      .content{
-        color: #a59a96;
-        line-height: 1.8em;
-        margin: 50px 0 0 80px;
-        @media (max-width: 768px) {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-</style>

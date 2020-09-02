@@ -12,14 +12,14 @@
       <el-table-column
         label="訂單時間"
         prop="created.datetime"
-        width="200"
+        width="250"
         sortable>
       </el-table-column>
       <el-table-column
         label="名稱"
-        width="180">
+        width="250">
         <div slot-scope="scope" class="tableColumn">
-          <span v-for="(item,index) in scope.row.products" :key="index">{{item.product.title}}</span>
+          <span v-for="(item,index) in scope.row.products" :key="index">{{ item.product.title }}</span>
         </div>
       </el-table-column>
       <el-table-column
@@ -27,7 +27,7 @@
         width="150"
         sortable>
         <div slot-scope="scope" class="tableColumn">
-          <span v-for="(item,index) in scope.row.products" :key="index">{{item.product.category}}</span>
+          <span v-for="(item,index) in scope.row.products" :key="index">{{ item.product.category }}</span>
         </div>
       </el-table-column>
       <el-table-column
@@ -70,7 +70,6 @@
 import OrderModal from '@/components/OrderModal'
 
 export default {
-  name: 'orders',
   components: {
     ordermodal: OrderModal
   },
@@ -96,8 +95,6 @@ export default {
         this.ordersList = response.data.data
         this.pagination = response.data.meta.pagination
         this.loading = false
-      }).catch((err) => {
-        console.log(err)
       })
     },
 
@@ -111,9 +108,6 @@ export default {
       }
       this.axios.patch(api).then((response) => {
         this.getOrders()
-        console.log(item.paid)
-      }).catch((err) => {
-        console.log(err)
       })
     },
 
@@ -128,11 +122,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .tableColumn{
-    display:flex;
-    flex-direction:column;
-    align-items:start
-  }
-</style>

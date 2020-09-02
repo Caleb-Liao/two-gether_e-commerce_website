@@ -4,31 +4,31 @@
       :visible.sync="dialogVisible"
       width="900px"
       :before-close="closeModal">
-      <el-row class="Modal">
+      <el-row class="Modal" v-loading="loading">
         <el-col :span="11" :xs="24">
           <div class="imgCircle">
             <img :src="product.imageUrl[0]" alt="" class="productImg">
           </div>
         </el-col>
         <el-col :span="13" :xs="24">
-          <h3>{{product.title}}</h3>
+          <h3>{{ product.title }}</h3>
           <div class="basicInformation">
             <h5>基本資訊</h5>
-            <p>產品類別：{{product.category}}</p>
-            <p>性別：{{product.options.gender}}</p>
-            <p>地區：{{product.options.area}}</p>
-            <p>價錢：{{product.price}} $</p>
+            <p>產品類別：{{ product.category }}</p>
+            <p>性別：{{ product.options.gender }}</p>
+            <p>地區：{{ product.options.area }}</p>
+            <p>價錢：{{ product.price }} $</p>
           </div>
           <div class="line"></div>
           <div class="productInformation">
             <h5>產品資訊</h5>
             <div style="display:flex">
               <p style="width:22%">產品內容：</p>
-              <p style="width:75%">{{product.content}}</p>
+              <p style="width:75%">{{ product.content }}</p>
             </div>
             <div style="display:flex">
               <p style="width:22%">產品描述：</p>
-              <p style="width:75%">{{product.description}}</p>
+              <p style="width:75%">{{ product.description }}</p>
             </div>
           </div>
           <div class="button">
@@ -50,7 +50,8 @@ export default {
       product: {
         imageUrl: [],
         options: {}
-      }
+      },
+      loading: false
     }
   },
 
@@ -71,14 +72,15 @@ export default {
 
       this.axios.get(api).then((response) => {
         this.product = response.data.data
-      }).catch((err) => {
-        console.log(err)
+        this.$emit('open-modal')
       })
     },
 
     addToCart (id, status) {
+      this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        this.loading = false
         this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
@@ -87,6 +89,7 @@ export default {
         })
         if (status === 'buy') this.$router.push({ name: 'Cart' })
       }).catch(() => {
+        this.loading = false
         this.$notify({
           title: '咦～',
           message: '商品已經在購物車裡囉(｡◕∀◕｡)',
@@ -97,100 +100,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.frontendProductModal{
-  .el-dialog{
-    box-shadow: 0 0 20px 10px rgba(165, 154, 150, 0.5);
-    z-index: 1;
-    margin-top: 10vh !important;
-    @media(max-width: 768px){
-      width: 100% !important;
-      margin-top: 5vh !important;
-    }
-  }
-  .el-dialog__wrapper{
-    backdrop-filter: blur(10px);
-    background-color: rgba(165, 154, 150, 0.5);
-  }
-  .Modal{
-    padding: 0 40px;
-    @media(max-width: 768px){
-      padding: 0;
-    }
-    .imgCircle{
-      margin-top: 35%;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      background-color: #a59a96;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      @media(max-width:768px){
-        margin: 0 auto 30px auto;
-      }
-      &::after{
-        content: "";
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        background-color: rgba(214, 203, 199, 0.2);
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: -1;
-      }
-      .productImg{
-        width: 72%;
-        height: 80%;
-        border-radius: 40%;
-      }
-    }
-    h3{
-      font-size: 32px;
-      color: #4b403c;
-    }
-    h5{
-      color:#a59a96;
-      opacity: 0.5;
-    }
-    p{
-      font-size: 16px;
-      color: #a59a96;
-      margin: 1em 0;
-      line-height: 1.5em;
-    }
-    .basicInformation{
-      margin: 2em 0;
-      border-width: 2px;
-      border-style: solid;
-      border-image: linear-gradient(to left,#ffffff,#a59a96) 0  0 100% 0;
-      padding-bottom: 10px;
-    }
-    .button{
-      text-align: center;
-      margin: 40px 0 50px 0;
-      .el-button{
-        height: 32px;
-        color: #a59a96;
-        border-radius: 16px;
-        border: solid 1px #d6cbc7;
-        padding: 0 10px;
-        line-height: 32px;
-        img{
-          margin-left: 3px;
-          transform: translateY(5px);
-        }
-      }
-    }
-  }
-  .closeIcon{
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-  }
-}
-</style>

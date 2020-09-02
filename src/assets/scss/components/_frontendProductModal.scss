@@ -1,0 +1,102 @@
+.frontendProductModal{
+  .el-dialog{
+    box-shadow: 0 0 20px 10px rgba(165, 154, 150, 0.5);
+    z-index: 1;
+    margin-top: 10vh !important;
+    @media(max-width: 768px){
+      width: 100% !important;
+      margin-top: 5vh !important;
+    }
+  }
+  .el-dialog__wrapper{
+    backdrop-filter: blur(10px);
+    background-color: rgba(165, 154, 150, 0.5);
+  }
+  .Modal{
+    padding: 0 40px;
+    @media(max-width: 768px){
+      padding: 0;
+    }
+    .imgCircle{
+      margin-top: 35%;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background-color: #a59a96;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      @media(max-width:768px){
+        margin: 0 auto 30px auto;
+      }
+      &::after{
+        content: "";
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background-color: rgba(214, 203, 199, 0.2);
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: -1;
+      }
+      .productImg{
+        width: 72%;
+        height: 80%;
+        border-radius: 40%;
+      }
+    }
+    h3{
+      font-size: 32px;
+      color: #4b403c;
+    }
+    h5{
+      color:#a59a96;
+      opacity: 0.5;
+    }
+    p{
+      font-size: 16px;
+      color: #a59a96;
+      margin: 1em 0;
+      line-height: 1.5em;
+    }
+    .basicInformation{
+      margin: 2em 0;
+      border-width: 2px;
+      border-style: solid;
+      border-image: linear-gradient(to left,#ffffff,#a59a96) 0  0 100% 0;
+      padding-bottom: 10px;
+    }
+    .button{
+      text-align: center;
+      margin: 40px 0 50px 0;
+      .el-button{
+        height: 32px;
+        color: #a59a96;
+        border-radius: 16px;
+        border: solid 1px #d6cbc7;
+        padding: 0 10px;
+        margin-right: 10px;
+        line-height: 32px;
+        img{
+          margin-left: 3px;
+          transform: translateY(5px);
+        }
+      }
+    }
+  }
+  .closeIcon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .el-loading-spinner{
+    position: fixed;
+    width: 50%;
+    @media(max-width: 768px){
+      width: 100%;
+    }
+  }
+}

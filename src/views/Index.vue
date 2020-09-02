@@ -1,13 +1,13 @@
 <template>
   <div class="indexPage">
     <div v-for="(item,index) in images" :key="item.image">
-      <div class="backgroundImg"><img :src="item.image" alt="" v-if="index == activeImg"></div>
+      <div class="backgroundImg"><img :src="item.image" alt="" v-if="index === activeImg"></div>
     </div>
     <div class="block">
       <el-carousel :interval=2000 autoplay height="60vh" ref="carousel" @change="getIndex($refs.carousel.activeIndex)">
         <el-carousel-item v-for="item in images" :key="item.image">
           <router-link :to="`${item.path}`"><img :src="item.image" alt=""></router-link>
-          <router-link :to="`${item.path}`" class="indexBtn">{{item.word}}</router-link>
+          <router-link :to="`${item.path}`" class="indexBtn">{{ item.word }}</router-link>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -37,71 +37,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.indexPage{
-  .backgroundImg{
-    img{
-      margin: 0 2%;
-      width: 96%;
-      height: 99vh;
-      filter: blur(20px);
-      z-index: -1;
-    }
-  }
-  .block{
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 20vh;
-    width: 100%;
-    @media(max-width: 768px){
-      top: 15vh;
-    }
-    .el-carousel{
-      width: 90%;
-      z-index: 0;
-      .el-carousel__item{
-        img{
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        &:nth-of-type(2),&:nth-of-type(3){
-          img{
-            @media(max-width: 768px){
-              object-position: 65%  50%;
-            }
-          }
-        }
-      }
-      .el-carousel__button{
-        display: none;
-      }
-      .el-carousel__arrow--left{
-        background-color: #f7f5f4;
-        background-image: url(~@/assets/icon/left.svg);
-      }
-      .el-carousel__arrow--right{
-        background-color: #f7f5f4;
-        background-image: url(~@/assets/icon/right.svg);
-      }
-    }
-  }
-  .indexBtn{
-    width: 200px;
-    font-size: 24px;
-    letter-spacing: 4px;
-    background: #e7e2e1;
-    border-radius: 24px;
-    color: #4b403c;
-    padding: 10px 30px;
-    text-decoration: none;
-    position: absolute;
-    text-align: center;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-</style>

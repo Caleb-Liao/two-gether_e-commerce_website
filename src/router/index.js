@@ -49,11 +49,6 @@ const routes = [
     component: () => import('../views/dashboard/Dashboard.vue'),
     children: [
       {
-        path: '',
-        name: 'backendIndex',
-        component: () => import('../views/dashboard/Index.vue')
-      },
-      {
         path: 'products',
         name: 'backendProducts',
         component: () => import('../views/dashboard/Products.vue')
@@ -67,11 +62,6 @@ const routes = [
         path: 'orders',
         name: 'Orders',
         component: () => import('../views/dashboard/Orders.vue')
-      },
-      {
-        path: 'test',
-        name: 'Test',
-        component: () => import('../views/dashboard/Test.vue')
       }
     ]
   }

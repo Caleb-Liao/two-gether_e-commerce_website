@@ -70,7 +70,6 @@
 import CouponModal from '@/components/CouponModal'
 
 export default {
-  name: 'coupons',
   components: {
     couponmodal: CouponModal
   },
@@ -96,8 +95,6 @@ export default {
       this.axios.get(api).then((response) => {
         this.couponList = response.data.data
         this.loading = false
-      }).catch((err) => {
-        console.log(err)
       })
     },
 
@@ -143,16 +140,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .couponsTopBtn{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 30px;
-    margin-left: 10px;
-    @media (max-width: 768px){
-      justify-content: flex-start;
-    }
-  }
-</style>

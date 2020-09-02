@@ -17,7 +17,6 @@
 import NavMenu from '@/components/NavMenu'
 
 export default {
-  name: 'dashboard',
   components: {
     navmenu: NavMenu
   },
@@ -38,7 +37,6 @@ export default {
         this.checkSuccess = true
       }
     }).catch((res) => {
-      console.log(res)
       this.$router.push('/login')
     })
   },
@@ -51,27 +49,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .dashboard{
-    .el-header{
-      background-color: #545c64;
-    }
-    .el-container{
-      height: 100vh;
-    }
-    .el-aside{
-      overflow-x: hidden;
-      width: 180px !important;
-      @media (max-width: 1200px){
-          width:70px !important;
-      }
-    }
-    .el-dialog{
-      width: 30%;
-      @media (max-width: 1200px){
-          width:90%;
-      }
-    }
-  }
-</style>

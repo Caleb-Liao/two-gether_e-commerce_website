@@ -12,7 +12,7 @@
               </el-form-item>
               <el-button type="info" native-type="submit">登入</el-button>
               <h2 style="margin-top:10px"><router-link to="/" style="text-decoration:none">回到前台</router-link></h2>
-              <p v-if="error == true ">帳號或密碼輸入錯誤</p>
+              <p v-if="error === true ">帳號或密碼輸入錯誤</p>
           </el-form>
       </el-col>
     </el-row>
@@ -38,8 +38,7 @@ export default {
         const expired = response.data.expired
         document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`
         this.$router.push('admin/products')
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
         this.user.password = ''
         this.error = true
       })
@@ -47,25 +46,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .login{
-    .el-col{
-      margin-top: 30vh;
-      width: 350px;
-      p{
-        color: #c02c38;
-        margin-top: 16px;
-      }
-      @media(max-width: 576px){
-        width: 90%;
-      }
-    }
-    h1{
-      margin-bottom: 25px;
-    }
-    .el-form-item__content{
-      margin-right: 50px;
-    }
-  }
-</style>

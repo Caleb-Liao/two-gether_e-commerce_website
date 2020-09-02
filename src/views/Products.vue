@@ -3,9 +3,9 @@
     <h2 class="title"><mark class="mark">服務項目</mark></h2>
     <span class="smallTitle">OurServices</span>
     <div class="head">
-      <span>{{`Showing ${count.from}-${count.to} of ${count.total} results`}}</span>
+      <span>{{ `Showing ${count.from}-${count.to} of ${count.total} results` }}</span>
       <select v-model="sort" @change="sortProducts">
-        <option v-for="item in sortList" :key="item.value" :value="item.value">{{item.name}}</option>
+        <option v-for="item in sortList" :key="item.value" :value="item.value">{{ item.name }}</option>
       </select>
     </div>
 
@@ -20,12 +20,12 @@
             </transition>
           </div>
           <div class="productInformation">
-            <img src="@/assets/icon/tools.svg" alt="" v-if="item.title == '客製化服務'">
-            <img src="@/assets/icon/ticket.svg" alt="" v-if="item.title == '時數券(1hr)' || item.title == '情侶券'">
-            <img src="@/assets/icon/male.svg" alt="" v-if="item.options.gender == '男'">
-            <img src="@/assets/icon/female.svg" alt="" v-if="item.options.gender == '女'">
-            <span style="margin-left:50px">{{item.title}}</span>
-            <span>{{item.price}}
+            <img src="@/assets/icon/tools.svg" alt="" v-if="item.title === '客製化服務'">
+            <img src="@/assets/icon/ticket.svg" alt="" v-if="item.title === '時數券(1hr)' || item.title === '情侶券'">
+            <img src="@/assets/icon/male.svg" alt="" v-if="item.options.gender === '男'">
+            <img src="@/assets/icon/female.svg" alt="" v-if="item.options.gender === '女'">
+            <span style="margin-left:50px">{{ item.title }}</span>
+            <span>{{ item.price }}
               <span style="font-size:16px;color:#a59a96;margin-left:3px">$</span>
             </span>
           </div>
@@ -42,7 +42,12 @@
       @current-change="imgShow = false">
     </el-pagination>
 
-    <productmodal :dialog-visible="dialogVisible" @close-modal="dialogVisible = false" ref="frontendProductModal"></productmodal>
+    <productmodal
+      :dialog-visible="dialogVisible"
+      @close-modal="dialogVisible = false"
+      ref="frontendProductModal"
+      @open-modal="dialogVisible = true, loading = false">
+    </productmodal>
   </div>
 </template>
 
@@ -140,8 +145,7 @@ export default {
           this.categoryList[category].push(item)
         })
         this.loading = false
-      }).catch((err) => {
-        console.log(err)
+      }).catch(() => {
         this.loading = false
       })
     },
@@ -180,8 +184,10 @@ export default {
     },
 
     addToCart (id) {
+      this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
       this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
+        this.loading = false
         this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
@@ -189,6 +195,7 @@ export default {
           offset: 150
         })
       }).catch(() => {
+        this.loading = false
         this.$notify({
           title: '咦～',
           message: '商品已經在購物車裡囉(｡◕∀◕｡)',
@@ -200,157 +207,7 @@ export default {
     openModal (id) {
       this.loading = true
       this.$refs.frontendProductModal.getProduct(id)
-      setTimeout(() => {
-        this.dialogVisible = true
-        this.loading = false
-      }, 1000)
-    },
-
-    close () {
-      console.log(123)
     }
   }
 }
 </script>
-
-<style lang="scss">
-  .fade-enter-active{
-    transition: opacity 3s;
-  }
-  .fade-enter{
-    opacity: 0;
-  }
-  .frontendProductsPage{
-    padding: 100px 130px 50px 100px;
-    position: relative;
-    @media(max-width: 768px){
-      padding: 0 50px 50px 50px;
-    }
-    .smallTitle{
-      font-family: 'Prata';
-      color: #a59a96;
-      position: absolute;
-      top: 40px;
-      right: 100px;
-      @media(max-width: 768px){
-        display: none;
-      }
-    }
-    .head{
-      font-family: 'Prata';
-      color: #a59a96;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 120px;
-      @media(max-width: 768px){
-        flex-direction: column;
-        padding-top: 100px;
-        margin-bottom: 90px;
-        select{
-          margin-top: 20px;
-        }
-      }
-      select{
-        color: #a59a96;
-        border-radius: 16px;
-        padding: 5px;
-        font-size: 18px;
-        border: solid 1px #d6cbc7;
-        outline: none;
-        font-family: "Noto Sans TC"
-      }
-      option{
-        border: 1px solid !important;
-      }
-    }
-    .productBox{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      @media(max-width: 768px){
-          flex-direction: column;
-          align-items: center;
-        }
-      .product{
-        width: 27%;
-        display: flex;
-        justify-content: center;
-        &:last-child:nth-child(3n - 1){
-          // 最後一行如果不滿三個且只有兩個時要調整位置
-          margin-right: 36%;
-        }
-        @media(max-width: 768px){
-          width: 100%;
-          &:last-child:nth-child(3n - 1){
-            margin-right: 0;
-          }
-        }
-        .imgCircle{
-          width: 250px;
-          height: 250px;
-          border-radius: 50%;
-          background-color: #a59a96;
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: flex-end;
-          &::after{
-            content: "";
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            background-color: rgba(214, 203, 199, 0.2);
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: -1;
-          }
-          .cartIcon{
-            width: 24px;
-            height: 24px;
-            position: absolute;
-            border-radius: 50%;
-            padding: 3px;
-            right: 10px;
-            top: 97px;
-            background-color: #e7e2e1;
-            cursor: pointer;
-          }
-          .informationIcon{
-            position: absolute;
-            border-radius: 50%;
-            right: 10px;
-            top: 130px;
-            background-color: #e7e2e1;
-            cursor: pointer;
-          }
-          .productImg{
-            width: 72%;
-            height: 80%;
-            border-radius: 40%;
-          }
-        }
-        .productInformation{
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 60px 0 110px 0;
-          img{
-            position: absolute;
-          }
-        }
-      }
-    }
-    .el-pagination{
-     text-align: center;
-    }
-    .el-pagination.is-background .el-pager li:not(.disabled).active{
-      background-color: #a59a96;
-      border-radius: 50%;
-    }
-    .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li{
-      color: #a59a96;
-      background-color: white;
-    }
-  }
-</style>

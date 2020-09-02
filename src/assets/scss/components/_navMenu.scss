@@ -1,0 +1,13 @@
+.navmenu{
+  height: 100%;
+  .el-col{
+    height: 100%
+  }
+  .el-menu-vertical-demo{
+    height: 100%;
+    border-right: solid 0px #e6e6e6;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between
+  }
+}

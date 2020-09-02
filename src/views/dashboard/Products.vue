@@ -6,7 +6,7 @@
         <span v-for="item in category" :key="item.value"
         @click="productsList = data[item.value]"
         class="category"
-        :class="{'category_active':productsList === data[item.value]}">{{item.name}}</span>
+        :class="{'category_active':productsList === data[item.value]}">{{ item.name }}</span>
       </div>
       <el-button @click="openModal('new')">新增產品</el-button>
     </div>
@@ -90,7 +90,6 @@
 import ProductModal from '@/components/ProductModal'
 
 export default {
-  name: 'backendProducts',
   components: {
     productmodal: ProductModal
   },
@@ -162,8 +161,6 @@ export default {
         })
         this.productsList = this.data.all
         this.loading = false
-      }).catch((err) => {
-        console.log('錯誤:', err)
       })
     },
 
@@ -217,30 +214,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .productsTopBtn{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    margin-left: 10px;
-  }
-  .category{
-    color:#909399;
-    margin-right: 10px;
-    &:hover{
-      cursor: pointer;
-    }
-  }
-  .category_active{
-    color:black;
-    font-size: 20px;
-    font-weight: bolder;
-  }
-  .categoryBtn{
-    @media (max-width: 768px){
-      display: none;
-    }
-  }
-</style>

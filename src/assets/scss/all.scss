@@ -1,0 +1,45 @@
+// 後台 SCSS
+@import "./dashboard/dashboard";
+@import "./dashboard/coupon";
+@import "./dashboard/orders";
+@import "./dashboard/products";
+
+// 前台 SCSS
+@import "./frontend/home";
+@import "./frontend/about";
+@import "./frontend/cart";
+@import "./frontend/index";
+@import "./frontend/login";
+@import "./frontend/order";
+@import "./frontend/products";
+
+// components SCSS
+@import "./components/chatModal";
+@import "./components/couponModal";
+@import "./components/frontendProductModal";
+@import "./components/navMenu";
+@import "./components/orderModal";
+@import "./components/productModal";
+
+*{
+  box-sizing: border-box;
+}
+
+#app{
+  border-right: 2px solid #F5F5F5;
+  border-left: 2px solid #F5F5F5;
+  width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  font-family: "Noto Sans TC","Microsoft YaHei","Microsoft JhengHei",sans-serif;
+  @media(max-width: 768px){
+    width: 100%;
+  }
+}
+.el-loading-spinner{
+  position: fixed;
+  width: 60%;
+  @media(max-width: 768px){
+    width: 100%;
+  }
+}

@@ -127,8 +127,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${id}`
       this.axios.get(api).then((res) => {
         this.tempProduct = res.data.data
-      }).catch((error) => {
-        console.log('錯誤:', error)
       })
     },
 
@@ -146,17 +144,8 @@ export default {
       this.axios[httpMethod](api, this.tempProduct).then(() => {
         this.cancel()
         this.$emit('update')
-      }).catch((error) => {
-        console.log('錯誤:', error)
       })
     }
   }
 }
 </script>
-
-<style lang="scss">
-  .productModalBtn{
-    margin-left: 30px;
-    transform: translateY(15px)
-  }
-</style>

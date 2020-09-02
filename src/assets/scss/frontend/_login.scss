@@ -1,0 +1,19 @@
+.login{
+  .el-col{
+    margin-top: 30vh;
+    width: 350px;
+    p{
+      color: #c02c38;
+      margin-top: 16px;
+    }
+    @media(max-width: 576px){
+      width: 90%;
+    }
+  }
+  h1{
+    margin-bottom: 25px;
+  }
+  .el-form-item__content{
+    margin-right: 50px;
+  }
+}

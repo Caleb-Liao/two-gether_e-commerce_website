@@ -74,22 +74,8 @@ export default {
         this.tempOrder.user = response.data.data.user
         this.tempOrder.coupon.title = response.data.data.coupon.title
         this.tempOrder.coupon.percent = response.data.data.coupon.percent
-      }).catch((err) => {
-        console.log(err)
       })
     }
   }
 }
 </script>
-
-<style lang="scss">
-  .alert{
-    color:#c02c38;
-    font-size:12px
-  }
-  .orderModalBtn{
-    display:flex;
-    justify-content:flex-end;
-    transform: translateY(15px)
-  }
-</style>
