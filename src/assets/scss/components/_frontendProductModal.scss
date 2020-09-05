@@ -72,13 +72,17 @@
       text-align: center;
       margin: 40px 0 50px 0;
       .el-button{
-        height: 32px;
+        font-size: 18px;
+        height: 42px;
         color: #a59a96;
         border-radius: 16px;
         border: solid 1px #d6cbc7;
-        padding: 0 10px;
+        padding: 0 15px;
         margin-right: 10px;
         line-height: 32px;
+        &:hover{
+          background-color: rgba(214, 203, 199, 0.2);
+        }
         img{
           margin-left: 3px;
           transform: translateY(5px);

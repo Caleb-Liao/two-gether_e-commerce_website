@@ -12,9 +12,8 @@
     <div class="productBox">
       <div v-for="(item,index) in productsList" :key="item.id" class="product">
         <div v-if="(index+1) > (page-1)*9 && (index+1) <= page*9">
-          <div class="imgCircle">
-            <img src="@/assets/icon/cart.svg" alt="" class="cartIcon" @click="addToCart(item.id)">
-            <img src="@/assets/icon/more.svg" alt="" class="informationIcon"  @click="openModal(item.id)">
+          <div class="imgCircle" @click="openModal(item.id)">
+            <img src="@/assets/icon/cart.svg" alt="" class="cartIcon" @click.stop="addToCart(item.id)">
             <transition name="fade">
               <img :src="item.imageUrl[0]" alt="" class="productImg" v-if="imgShow">
             </transition>

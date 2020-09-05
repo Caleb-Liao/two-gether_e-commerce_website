@@ -63,14 +63,18 @@
   }
   .el-button{
     font-family: "Noto Sans TC";
-    height: 32px;
+    font-size: 18px;
+    height: 42px;
     color: #a59a96;
     border-radius: 16px;
     border: solid 1px #d6cbc7;
-    padding: 0 10px;
+    padding: 0 15px;
     line-height: 32px;
     float: right;
-    margin-top: 20px;
+    margin-top: 30px;
+    &:hover{
+      background-color: rgba(214, 203, 199, 0.2);
+    }
     img{
       transform: translateY(5px);
       margin-left: 5px;
@@ -115,8 +119,8 @@
     border-top: 1px solid #ada39f;
     border-bottom: 1px solid #ada39f;
     padding: 50px 0 30px 28%;
-    @media (max-width: 768px) {
-      padding-left: 0;
+    @media (max-width: 1200px) {
+      padding-left: 0px;
     }
     label{
       color: #a59a96;
@@ -124,8 +128,8 @@
     }
     .el-input__inner{
       width: 50%;
-      @media (max-width: 768px) {
-        width: 100%;;
+      @media (max-width: 1200px) {
+        width: 100%;
       }
     }
     .el-select{
@@ -140,8 +144,8 @@
     }
     .el-textarea__inner{
       width: 50%;
-      @media (max-width: 768px) {
-        width: 100%;;
+      @media (max-width: 1200px) {
+        width: 100%;
       }
     }
   }

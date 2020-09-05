@@ -62,7 +62,7 @@
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end">
           <span v-show="!couponStatus" style="color:red;margin-top:10px">*您輸入的折扣碼錯誤，請重新輸入 !</span>
-          <el-button @click="active++">前往結帳<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
+          <el-button @click="moveToForm">前往結帳<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
         </div>
       </template>
 
@@ -77,24 +77,24 @@
         </div>
         <el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px">
           <el-form-item label="姓名：" prop="name" label-width="120px">
-            <label slot="label"><span style="margin-right:2em">姓</span>名：</label>
-            <el-input v-model="form.name" placeholder="請填寫當日活動者" class="input"></el-input>
+            <label slot="label" for="name"><span style="margin-right:2em">姓</span>名：</label>
+            <el-input v-model="form.name" placeholder="請填寫當日活動者" class="input" id="name"></el-input>
           </el-form-item>
           <el-form-item label="電話：" prop="tel" label-width="120px">
-            <label slot="label"><span style="margin-right:2em">電</span>話：</label>
-            <el-input v-model="form.tel" placeholder="0912-345-678" class="input"></el-input>
+            <label slot="label" for="tel"><span style="margin-right:2em">電</span>話：</label>
+            <el-input v-model="form.tel" placeholder="0912-345-678" class="input" id="tel"></el-input>
           </el-form-item>
-          <el-form-item label="電子郵件：" prop="email" label-width="120px">
-            <el-input v-model="form.email" placeholder="abc123999@gmail.com" class="input"></el-input>
+          <el-form-item label="電子郵件：" prop="email" label-width="120px" for="email">
+            <el-input v-model="form.email" placeholder="abc123999@gmail.com" class="input" id="email"></el-input>
           </el-form-item>
-          <el-form-item label="付款方式：" prop="payment" label-width="120px">
-            <el-select v-model="form.payment" placeholder="請選擇付款方式">
+          <el-form-item label="付款方式：" prop="payment" label-width="120px" for="payment">
+            <el-select v-model="form.payment" placeholder="請選擇付款方式" id="payment">
               <el-option v-for="item in payment" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="備註：" label-width="120px">
-            <label slot="label"><span style="margin-right:2em">備</span>註：</label>
-            <el-input v-model="form.message" type="textarea" placeholder="小提示：可以在我們聯絡您之前，先簡單告訴我們您的需求唷！ " class="input"></el-input>
+            <label slot="label" for="notice"><span style="margin-right:2em">備</span>註：</label>
+            <el-input v-model="form.message" type="textarea" placeholder="小提示：可以在我們聯絡您之前，先簡單告訴我們您的需求唷！ " class="input" id="notice"></el-input>
           </el-form-item>
         </el-form>
         <el-button @click="submitForm('ruleForm')">確認送出<img src="@/assets/icon/send.svg" alt=""></el-button>
@@ -272,6 +272,18 @@ export default {
       this.$refs.frontendProductModal.getProduct(id)
     },
 
+    moveToForm () {
+      if (this.cart.length !== 0) {
+        this.active++
+      } else {
+        this.$notify({
+          title: '哎呀～',
+          message: '購物車目前沒有商品唷 ( ´ﾟДﾟ`)',
+          offset: 150
+        })
+      }
+    },
+
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -284,6 +296,7 @@ export default {
       this.loading = true
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders`
       this.axios.post(api, this.form).then((response) => {
+        this.$bus.$emit('updateCartNum')
         this.getOrderId()
       }).catch(() => {
         this.loading = false

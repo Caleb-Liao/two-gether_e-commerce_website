@@ -13,7 +13,7 @@
               <h1>Two - <br>Gether</h1>
             </div>
           </router-link>
-          <el-badge :value="cartNum" class="cartPC">
+          <el-badge :value="cartNum" class="cartPC" :hidden="cartNum == 0">
             <router-link to="/cart" class="cartBtn">我的購物車
               <img src="@/assets/icon/cart.svg" alt="">
               <img src="@/assets/icon/cartWhite.svg" alt="">
@@ -30,27 +30,35 @@
           <div class="menu" v-show="sidebarOpen">
             <ul>
               <li @click="closeMobileMenu">
-                <router-link to="/" exact>首頁</router-link>
-                <h5>Home Page</h5>
+                <router-link to="/" exact>
+                  <h4>首頁</h4>
+                  <h5>Home Page</h5>
+                </router-link>
               </li>
               <li @click="closeMobileMenu">
-                <router-link to="/about">關於我們</router-link>
-                <h5>About Us</h5>
+                <router-link to="/about">
+                  <h4>關於我們</h4>
+                  <h5>About Us</h5>
+                </router-link>
               </li>
               <li class="products" @click="$bus.$emit('reshowImg')">
-                <router-link to="/products/all">服務項目</router-link>
-                <h5>Our Service</h5>
+                <router-link to="/products/all">
+                  <h4>服務項目</h4>
+                  <h5>Our Service</h5>
+                </router-link>
                 <ul class="product">
                   <li to="/products" v-for="category in categories" :key="category.name" @click="closeMobileMenu">
                   <router-link :to="`/products/${category.value}`">/ {{ category.name }}</router-link></li>
                 </ul>
               </li>
               <li @click="closeMobileMenu">
-                <router-link to="/order">我的訂單</router-link>
-                <h5>My Order</h5>
+                <router-link to="/order">
+                  <h4>我的訂單</h4>
+                  <h5>My Order</h5>
+                </router-link>
               </li>
-              <li>
-                <a href="#" @click="drawer = true">線上客服</a>
+              <li @click="drawer = true">
+                <h4>線上客服</h4>
                 <h5>Customer Service</h5>
               </li>
             </ul>
