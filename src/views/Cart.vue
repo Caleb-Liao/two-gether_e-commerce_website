@@ -4,11 +4,12 @@
 
       <template v-if="active === 1">
         <div class="line1"><img src="@/assets/icon/cart3.svg" alt="" ></div>
-        <el-button @click="deleteAll">清空購物車</el-button>
+        <el-button @click="deleteAll">清空購物車<img src="@/assets/icon/trashcan.svg" alt=""></el-button>
         <el-table :data="cart">
           <el-table-column
             width="150"
-            align="center">
+            align="center"
+            v-if="cart.length > 0">
             <div slot-scope="scope">
               <el-image
                 :src="scope.row.product.imageUrl[0]"
@@ -18,13 +19,11 @@
           </el-table-column>
           <el-table-column
             prop="product.title"
-            label="品名"
-            width="250">
+            label="品名">
           </el-table-column>
           <el-table-column
             prop="product.category"
             label="類別"
-            width="180"
             align="center">
           </el-table-column>
           <el-table-column
@@ -63,6 +62,12 @@
         <div style="display:flex;flex-direction:column;align-items:flex-end">
           <span v-show="!couponStatus" style="color:red;margin-top:10px">*您輸入的折扣碼錯誤，請重新輸入 !</span>
           <el-button @click="moveToForm">前往結帳<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
+        </div>
+        <div class="notice">
+          <p v-if="cart.length == 0">
+            購物車裡目前沒有商品唷<br>再來去逛逛吧！
+            <router-link to="/products/all">繼續逛逛</router-link>
+          </p>
         </div>
       </template>
 
@@ -120,14 +125,15 @@
             {{ orderId }}<br>
             我們會在活動當天前七天聯絡您討論當天內容，<br>
             若是有需要的話也可以直接連絡我們！<br>
-            您可以在我的訂單中查詢您的訂單，<br>
+            您可以在<router-link to="/order">我的訂單</router-link>中查詢您的訂單，<br>
             若要修改或刪除訂單請直接連絡我們。<br>
             以下有幾點注意事項要提醒您：</p>
-            <div style="text-decoration:underline;margin-top:2em">
+            <div style="text-decoration:underline;margin:2em 0">
               <p>我們不會向邊友透漏您的個資<br>
               在指定日期當天的72小時以前，若因故要取消合約，能無條件完全退費<br>
               如果當天有不滿意邊友之處，在活動結束後72小時內提出合理原因，可予以退費50%</p>
             </div>
+            <p>我們還有更多可愛的小哥哥、小姊姊唷！<router-link to="/products/all">繼續逛逛</router-link></p>
           </div>
         </div>
       </template>

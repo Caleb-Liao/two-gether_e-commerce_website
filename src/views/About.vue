@@ -2,7 +2,7 @@
   <div class="aboutPage">
     <div class="ourStory">
       <el-row>
-        <el-col :span="16" :xs="24">
+        <el-col :xs="24" :sm="24" :lg="16">
           <h2 class="title"><mark class="mark">品牌故事</mark></h2>
           <h5>"Hey! Together? We two, together!"</h5>
           <p>那是一段刻苦的時光，因為家裡人不鼓勵我研究所繼續攻讀一樣的領域，起了爭執後的我決定義無反顧地踏上了英國留學的路，由於匆匆借了點錢就直接飛了過去，起初的三個月，扣掉生活費和學費後所剩寥寥無幾，身處異鄉的我也沒有什麼朋友，每天只能以泡麵度日。</p>
@@ -10,17 +10,17 @@
           <p>後來她(Yumi)才告訴我說她是從日本過來的，背景基本上跟我差不多，同時也在準備離開時發現了我，決定鼓起勇氣問我要不要一起。經過這件事後，我時不時在想如何也能幫助到那些跟我們一樣的人，於是這個網站就這樣誕生了，「Two-Gether，一個由Caleb和Yumi偕同創建的邊緣人交友平台」</p>
           <span>--Caleb</span>
         </el-col>
-        <el-col :span="8" :xs="24">
-          <img src="https://images.unsplash.com/photo-1570967692283-7c9bbd78579d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80" alt="">
+        <el-col :xs="24" :sm="24" :lg="8" style="display:flex;justify-content:center">
+          <img src="https://images.unsplash.com/photo-1570967692283-7c9bbd78579d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEysmd9&auto=format&fit=crop&w=564&q=80" alt="">
         </el-col>
       </el-row>
     </div>
     <div class="joinUs" id="joinUS">
       <el-row>
-        <el-col :span="8" :xs="24">
-          <img src="https://images.unsplash.com/photo-1587751395859-9fa4224678a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=632&q=80" alt="">
+        <el-col :xs="24" :sm="24" :lg="8" style="display:flex;justify-content:center">
+          <img src="https://images.unsplash.com/photo-1587751395859-9fa4224678a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEysmd9&auto=format&fit=crop&w=632&q=80" alt="">
         </el-col>
-        <el-col :span="16" :xs="24">
+        <el-col :xs="24" :sm="24" :lg="16">
           <h2 class="title"><mark class="mark">加入我們</mark></h2>
           <h5>"We want you! Join us today!"</h5>
           <p>在這裡的每一位男孩女孩（以下我們稱之為邊友）曾經或許也跟你一樣，希望能找個一起出去玩的伴，在加入我們之後滿足了原本的期待之外也增添了一份對自我的認同感，如果你也希望能夠幫助到那些無助的邊緣人們，同時也享受與人交流的時光（尤其是與陌生人），歡迎加入我們的行列。</p>
@@ -32,7 +32,7 @@
     </div>
     <div class="commitment">
       <el-row>
-        <el-col :span="16" :xs="24">
+        <el-col :xs="24" :sm="24" :lg="16">
           <h2 class="title"><mark class="mark">五大承諾</mark></h2>
           <h5>"We have been committed to delivering the best service!"</h5>
           <h3>給消費者的五大承諾：</h3>
@@ -53,7 +53,7 @@
           </ul>
           <span>--Two-gether團隊</span>
         </el-col>
-        <el-col :span="8" :xs="24">
+        <el-col :xs="24" :sm="24" :lg="8" style="display:flex;justify-content:center">
           <img src="https://images.unsplash.com/photo-1564544430321-8d0eb062b11e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80" alt="">
         </el-col>
       </el-row>
