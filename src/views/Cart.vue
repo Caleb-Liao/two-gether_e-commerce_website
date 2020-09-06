@@ -60,12 +60,12 @@
           </div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end">
-          <span v-show="!couponStatus" style="color:red;margin-top:10px">*您輸入的折扣碼錯誤，請重新輸入 !</span>
+          <span v-show="!couponStatus" style="color:#F56C6C;margin-top:15px">*您輸入的折扣碼錯誤，請重新輸入 !</span>
           <el-button @click="moveToForm">前往結帳<img src="@/assets/icon/creditcard.svg" alt=""></el-button>
         </div>
         <div class="notice">
           <p v-if="cart.length == 0">
-            購物車裡目前沒有商品唷<br>再來去逛逛吧！
+            購物車裡目前沒有商品唷，再來去逛逛吧！
             <router-link to="/products/all">繼續逛逛</router-link>
           </p>
         </div>

@@ -8,6 +8,16 @@
   @media(max-width: 768px){
     padding: 0 50px 50px 50px;
   }
+  .categoryBtn{
+    @media(max-width: 768px){
+      padding-top: 100px;
+    }
+    .category{
+      color:#4b403c;
+      font-size: 20px;
+      font-weight: bolder;
+    }
+  }
   .smallTitle{
     font-family: 'Prata';
     color: #a59a96;
@@ -23,10 +33,9 @@
     color: #a59a96;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 120px;
+    margin: 20px 0 120px 0;
     @media(max-width: 768px){
       flex-direction: column;
-      padding-top: 100px;
       margin-bottom: 90px;
       select{
         margin-top: 20px;

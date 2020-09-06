@@ -2,6 +2,10 @@
   <div class="frontendProductsPage" v-loading="loading">
     <h2 class="title"><mark class="mark">服務項目</mark></h2>
     <span class="smallTitle">OurServices</span>
+    <div class="categoryBtn">
+      <span>類別：</span>
+      <span class="category">{{ categoryName }}</span>
+    </div>
     <div class="head">
       <span>{{ `Showing ${count.from}-${count.to} of ${count.total} results` }}</span>
       <select v-model="sort" @change="sortProducts">
@@ -60,6 +64,15 @@ export default {
 
   data () {
     return {
+      category: [
+        { name: '全部', value: 'all' },
+        { name: '運動', value: 'exercise' },
+        { name: '吃飯', value: 'eatout' },
+        { name: '出遊', value: 'hangout' },
+        { name: '玩桌遊', value: 'boardgame' },
+        { name: '看電影', value: 'movie' },
+        { name: '加購區', value: 'others' }
+      ],
       categoryList: {
         all: [],
         exercise: [],
@@ -108,6 +121,12 @@ export default {
     },
     productsList () {
       return this.categoryList[this.$route.params.category]
+    },
+    categoryName () {
+      const result = this.category.filter(item => {
+        return this.$route.params.category === item.value
+      })
+      return result[0].name
     }
   },
 

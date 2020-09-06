@@ -80,7 +80,7 @@
         padding: 0 15px;
         margin-right: 10px;
         line-height: 32px;
-        &:hover{
+        &:hover,&:focus{
           background-color: rgba(214, 203, 199, 0.2);
         }
         img{
