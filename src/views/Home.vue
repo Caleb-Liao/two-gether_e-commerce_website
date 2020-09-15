@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { apiCartGet } from '@/api.js'
 import ChatModal from '@/components/ChatModal'
 import lodash from 'lodash'
 
@@ -121,9 +122,8 @@ export default {
   },
 
   methods: {
-    getCartNum (paged = 9999) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
-      this.axios.get(api).then((response) => {
+    getCartNum () {
+      apiCartGet().then((response) => {
         this.cartNum = response.data.data.length
       })
     },

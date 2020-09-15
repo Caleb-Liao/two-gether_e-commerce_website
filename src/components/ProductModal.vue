@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item label="上傳圖片">
         <el-image
-          style="width: 75%; height: 250px"
+          style="width: 50%; height: 250px"
           :src="tempProduct.imageUrl[0]"
           :preview-src-list="tempProduct.imageUrl">
         </el-image>

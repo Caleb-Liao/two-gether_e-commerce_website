@@ -1,5 +1,5 @@
 <template>
-  <div class="frontendProductsPage" v-loading="loading">
+  <div class="frontendProductsPage">
     <h2 class="title"><mark class="mark">服務項目</mark></h2>
     <span class="smallTitle">OurServices</span>
     <div class="categoryBtn">
@@ -49,12 +49,13 @@
       :dialog-visible="dialogVisible"
       @close-modal="dialogVisible = false"
       ref="frontendProductModal"
-      @open-modal="dialogVisible = true, loading = false">
+      @open-modal="dialogVisible = true">
     </productmodal>
   </div>
 </template>
 
 <script>
+import { apiProductsGet, apiCartAdd } from '@/api.js'
 import FrontendProductModal from '@/components/FrontendProductModal'
 
 export default {
@@ -91,7 +92,6 @@ export default {
         { name: '排序依據價錢', value: 'price' }
       ],
       dialogVisible: false,
-      loading: false,
       imgShow: false
     }
   },
@@ -131,10 +131,8 @@ export default {
   },
 
   methods: {
-    getProducts (page = 1, paged = 99999) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/products?page=${page}&paged=${paged}`
-      this.axios.get(api).then((response) => {
+    getProducts () {
+      apiProductsGet().then((response) => {
         this.categoryList.all = response.data.data
         this.categoryList.all.forEach((item) => {
           let category = item.category
@@ -162,9 +160,7 @@ export default {
           }
           this.categoryList[category].push(item)
         })
-        this.loading = false
       }).catch(() => {
-        this.loading = false
       })
     },
 
@@ -202,10 +198,7 @@ export default {
     },
 
     addToCart (id) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
-      this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
-        this.loading = false
+      apiCartAdd({ product: id, quantity: 1 }).then((response) => {
         this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
@@ -213,7 +206,6 @@ export default {
           offset: 150
         })
       }).catch(() => {
-        this.loading = false
         this.$notify({
           title: '咦～',
           message: '商品已經在購物車裡囉(｡◕∀◕｡)',
@@ -223,7 +215,6 @@ export default {
     },
 
     openModal (id) {
-      this.loading = true
       this.$refs.frontendProductModal.getProduct(id)
     }
   }

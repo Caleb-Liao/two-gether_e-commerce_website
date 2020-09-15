@@ -4,7 +4,7 @@
       :visible.sync="dialogVisible"
       width="900px"
       :before-close="closeModal">
-      <el-row class="Modal" v-loading="loading">
+      <el-row class="Modal">
         <el-col :span="11" :xs="24">
           <div class="imgCircle">
             <img :src="product.imageUrl[0]" alt="" class="productImg">
@@ -44,14 +44,15 @@
 </template>
 
 <script>
+import { apiCartAdd, apiProductDetail } from '@/api.js'
+
 export default {
   data () {
     return {
       product: {
         imageUrl: [],
         options: {}
-      },
-      loading: false
+      }
     }
   },
 
@@ -68,19 +69,14 @@ export default {
     },
 
     getProduct (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/product/${id}`
-
-      this.axios.get(api).then((response) => {
+      apiProductDetail(id).then((response) => {
         this.product = response.data.data
         this.$emit('open-modal')
       })
     },
 
     addToCart (id, status) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping`
-      this.axios.post(api, { product: id, quantity: 1 }).then((response) => {
-        this.loading = false
+      apiCartAdd({ product: id, quantity: 1 }).then((response) => {
         this.$bus.$emit('updateCartNum')
         this.$notify({
           title: '恭喜～',
@@ -89,7 +85,6 @@ export default {
         })
         if (status === 'buy') this.$router.push({ name: 'Cart' })
       }).catch(() => {
-        this.loading = false
         this.$notify({
           title: '咦～',
           message: '商品已經在購物車裡囉(｡◕∀◕｡)',

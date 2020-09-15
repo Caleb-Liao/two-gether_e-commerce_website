@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { apiLogin } from '@/apiAdmin.js'
 export default {
   data () {
     return {
@@ -32,11 +33,10 @@ export default {
   },
   methods: {
     signin () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/auth/login`
-      this.axios.post(api, this.user).then((response) => {
-        const token = response.data.token
-        const expired = response.data.expired
-        document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`
+      apiLogin(this.user).then((response) => {
+        // const token = response.data.token
+        // const expired = response.data.expired
+        // document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`
         this.$router.push('admin/products')
       }).catch(() => {
         this.user.password = ''

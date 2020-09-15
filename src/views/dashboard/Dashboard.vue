@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { apiLoginCheck } from '@/apiAdmin.js'
 import NavMenu from '@/components/NavMenu'
 
 export default {
@@ -29,10 +30,9 @@ export default {
   },
 
   created () {
-    this.token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
-    const api = `${process.env.VUE_APP_APIPATH}/api/auth/check`
-    this.axios.post(api, { api_token: this.token }).then((response) => {
+    // this.token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
+    // this.axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
+    apiLoginCheck().then((response) => {
       if (response.data.success) {
         this.checkSuccess = true
       }

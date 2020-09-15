@@ -1,5 +1,5 @@
 <template>
-  <div class="orderPage"  v-loading="loading">
+  <div class="orderPage">
     <h2 class="title"><mark class="mark">我的訂單</mark></h2>
     <p>訂單編號：</p>
     <p class="orderId">{{ order.id }}</p>
@@ -32,14 +32,15 @@
 </template>
 
 <script>
+import { apiOrderGet, apiOrderDetail } from '@/api.js'
+
 export default {
   data () {
     return {
       order: {
         user: {}
       },
-      orderId: '',
-      loading: false
+      orderId: ''
     }
   },
 
@@ -49,23 +50,15 @@ export default {
 
   methods: {
     getOrderId () {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders`
-      this.axios.get(api).then((response) => {
+      apiOrderGet().then((response) => {
         this.orderId = response.data.data[0].id
-        this.getOrder()
-      }).catch(() => {
-        this.loading = false
+        this.getOrderDetail()
       })
     },
 
-    getOrder () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders/${this.orderId}`
-      this.axios.get(api).then((response) => {
+    getOrderDetail () {
+      apiOrderDetail(this.orderId).then((response) => {
         this.order = response.data.data
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
       })
     }
   }

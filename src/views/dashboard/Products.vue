@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { apiDashboardProductsGet } from '@/apiAdmin.js'
 import ProductModal from '@/components/ProductModal'
 
 export default {
@@ -127,10 +128,9 @@ export default {
 
   methods: {
     // 取得產品資料
-    getProducts (paged = 99999) {
+    getProducts () {
       this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/products?paged=${paged}`
-      this.axios.get(api).then((response) => {
+      apiDashboardProductsGet().then((response) => {
         // 建立好data包含全部資料和篩選過後的資料
         this.data.all = response.data.data
         this.data.all.forEach(item => {

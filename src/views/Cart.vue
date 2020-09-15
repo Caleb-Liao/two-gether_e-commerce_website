@@ -1,5 +1,5 @@
 <template>
-  <div class="cartPage" v-loading="loading">
+  <div class="cartPage">
     <h2 class="title"><mark class="mark">我的購物車</mark></h2>
 
       <template v-if="active === 1">
@@ -141,11 +141,12 @@
         :dialog-visible="dialogVisible"
         @close-modal="dialogVisible = false"
         ref="frontendProductModal"
-        @open-modal="dialogVisible = true, loading = false">></productmodal>
+        @open-modal="dialogVisible = true">></productmodal>
     </div>
 </template>
 
 <script>
+import { apiCartGet, apiCartDeleteOne, apiCartDeleteAll, apiCouponSend, apiOrderSend, apiOrderGet } from '@/api.js'
 import FrontendProductModal from '@/components/FrontendProductModal'
 
 export default {
@@ -185,8 +186,7 @@ export default {
           { required: true, message: '請選擇付款方式', trigger: 'change' }
         ]
       },
-      dialogVisible: false,
-      loading: false
+      dialogVisible: false
     }
   },
 
@@ -219,21 +219,17 @@ export default {
   },
 
   methods: {
-    getCart (paged = 9999) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping?paged=${paged}`
-      this.axios.get(api).then((response) => {
+    getCart () {
+      apiCartGet().then((response) => {
         this.cart = response.data.data
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
+        if (this.cart.length === 0) {
+          this.coupon = null
+        }
       })
     },
 
     sendCouponCode () {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/coupon/search`
-      this.axios.post(api, { code: this.couponCode }).then((response) => {
+      apiCouponSend({ code: this.couponCode }).then((response) => {
         this.coupon = response.data.data
         this.couponStatus = true
         this.form.coupon = this.couponCode
@@ -243,38 +239,27 @@ export default {
           message: '優惠券已存入購物車囉ヽ(●´∀`●)ﾉ',
           offset: 150
         })
-        this.loading = false
       }).catch(() => {
         this.couponStatus = false
         this.couponCode = ''
-        this.loading = false
       })
     },
 
     deleteItem (id) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/${id}`
-      this.axios.delete(api).then((response) => {
+      apiCartDeleteOne(id).then((response) => {
         this.getCart()
         this.$bus.$emit('updateCartNum')
-      }).catch(() => {
-        this.loading = false
       })
     },
 
     deleteAll () {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/shopping/all/product`
-      this.axios.delete(api).then((response) => {
+      apiCartDeleteAll().then((response) => {
         this.getCart()
         this.$bus.$emit('updateCartNum')
-      }).catch(() => {
-        this.loading = false
       })
     },
 
     openModal (id) {
-      this.loading = true
       this.$refs.frontendProductModal.getProduct(id)
     },
 
@@ -299,24 +284,16 @@ export default {
     },
 
     sendOrder () {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders`
-      this.axios.post(api, this.form).then((response) => {
+      apiOrderSend(this.form).then(() => {
         this.$bus.$emit('updateCartNum')
         this.getOrderId()
-      }).catch(() => {
-        this.loading = false
       })
     },
 
     getOrderId () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/ec/orders?paged=99999`
-      this.axios.get(api).then((response) => {
+      apiOrderGet().then((response) => {
         this.active++
         this.orderId = response.data.data[0].id
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
       })
     }
   }
