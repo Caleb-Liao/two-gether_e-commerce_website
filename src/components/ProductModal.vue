@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { apiDashboardProductDetail, apiDashboardProductsAdd, apiDashboardProductsUpdate } from '@/apiAdmin.js'
 export default {
   data () {
     return {
@@ -124,27 +125,24 @@ export default {
     },
 
     getProduct (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${id}`
-      this.axios.get(api).then((res) => {
+      apiDashboardProductDetail(id).then((res) => {
         this.tempProduct = res.data.data
+        this.$emit('open-modal')
       })
     },
 
     updateProduct () {
-      let api = ''
-      let httpMethod = ''
       if (this.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product`
-        httpMethod = 'post'
+        apiDashboardProductsAdd(this.tempProduct).then(() => {
+          this.cancel()
+          this.$emit('update')
+        })
       } else if (!this.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${this.tempProduct.id}`
-        httpMethod = 'patch'
+        apiDashboardProductsUpdate(this.tempProduct).then(() => {
+          this.cancel()
+          this.$emit('update')
+        })
       }
-
-      this.axios[httpMethod](api, this.tempProduct).then(() => {
-        this.cancel()
-        this.$emit('update')
-      })
     }
   }
 }

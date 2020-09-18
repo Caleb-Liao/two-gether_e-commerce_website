@@ -9,11 +9,11 @@
     :is-new="isNew"
     ref="couponModal"
     @update="getCoupons"
+    @open-modal="dialogVisible = true"
     @dialog-cancel="dialogVisible = false"></couponmodal>
 
     <el-table
       :data="couponList"
-      v-loading="loading"
       style="width: 100%">
       <el-table-column
         label="名稱"
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { apiDashboardCouponsGet, apiDashboardCouponsDelete } from '@/apiAdmin.js'
 import CouponModal from '@/components/CouponModal'
 
 export default {
@@ -78,7 +79,6 @@ export default {
     return {
       dialogVisible: false,
       isNew: true,
-      loading: false,
       couponId: '',
       couponList: []
     }
@@ -90,11 +90,8 @@ export default {
 
   methods: {
     getCoupons () {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupons`
-      this.axios.get(api).then((response) => {
+      apiDashboardCouponsGet().then((response) => {
         this.couponList = response.data.data
-        this.loading = false
       })
     },
 
@@ -109,11 +106,6 @@ export default {
           this.couponId = id
           this.$refs.couponModal.getCoupon(this.couponId)
           this.isNew = false
-          this.loading = true
-          setTimeout(() => {
-            this.dialogVisible = true
-            this.loading = false
-          }, 1500)
           break
         default:
           break
@@ -130,12 +122,10 @@ export default {
           type: 'success',
           message: '刪除成功!'
         })
-        this.loading = true
-        const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupon/${item.id}`
-        this.axios.delete(url).then(() => {
+        apiDashboardCouponsDelete(item.id).then(() => {
           this.getCoupons()
         })
-      }).catch(() => {})
+      })
     }
   }
 }

@@ -109,6 +109,12 @@
         z-index: 3;
       }
     }
+    .el-badge__content.is-fixed{
+      @media (max-width:768px) {
+        right: 40px;
+        top: 0px;
+      }
+    }
   }
 
   .logoPC{

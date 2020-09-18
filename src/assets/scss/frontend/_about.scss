@@ -21,14 +21,18 @@
     }
   }
   .el-col{
-    height: 100%;
     img{
-      width: 80%;
+      width: 90%;
       @media(max-width: 1440px){
         width: 100%;
       }
       @media(max-width: 1200px){
-        width: 80%;
+        width: auto;
+        height: 600px;
+      }
+      @media(max-width: 768px){
+        width: auto;
+        height: 400px;
       }
     }
   }

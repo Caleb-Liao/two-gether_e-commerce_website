@@ -19,11 +19,11 @@
               <img src="@/assets/icon/cartWhite.svg" alt="">
             </router-link>
           </el-badge>
-          <div class="cartMobile">
+          <el-badge :value="cartNum" class="cartMobile" :hidden="cartNum == 0">
             <router-link to="/cart">
               <img src="@/assets/icon/cart2.svg" alt="">
             </router-link>
-          </div>
+          </el-badge>
         </div>
 
         <transition name="fade">
@@ -67,7 +67,7 @@
 
         <div class="information">
           <ul class="icon">
-            <li><a href="https://github.com/Caleb-Liao/two-gether_e-commerce_website"><i class="fab fa-github fa-lg"></i></a></li>
+            <li><a href="https://github.com/Caleb-Liao/two-gether_e-commerce_website" target="_blank"><i class="fab fa-github fa-lg"></i></a></li>
             <li><a href=""><i class="fab fa-facebook fa-lg"></i></a></li>
             <li><a href=""><i class="fab fa-instagram fa-lg"></i></a></li>
           </ul>
@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { apiCartGet } from '@/api.js'
+import { apiCartNum } from '@/api.js'
 import ChatModal from '@/components/ChatModal'
 import lodash from 'lodash'
 
@@ -123,7 +123,7 @@ export default {
 
   methods: {
     getCartNum () {
-      apiCartGet().then((response) => {
+      apiCartNum().then((response) => {
         this.cartNum = response.data.data.length
       })
     },

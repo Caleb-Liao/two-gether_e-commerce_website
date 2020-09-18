@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { apiDashboardCouponDetail, apiDashboardCouponsAdd, apiDashboardCouponsUpdate } from '@/apiAdmin.js'
 export default {
   data () {
     return {
@@ -80,27 +81,24 @@ export default {
     },
 
     getCoupon (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupon/${id}`
-      this.axios.get(api).then((response) => {
+      apiDashboardCouponDetail(id).then((response) => {
         this.tempCoupon = response.data.data
+        this.$emit('open-modal')
       })
     },
 
     updateCoupon () {
-      let api = ''
-      let httpMethod = ''
       if (this.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupon`
-        httpMethod = 'post'
+        apiDashboardCouponsAdd(this.tempCoupon).then(() => {
+          this.cancel()
+          this.$emit('update')
+        })
       } else if (!this.isNew) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/coupon/${this.tempCoupon.id}`
-        httpMethod = 'patch'
+        apiDashboardCouponsUpdate(this.tempCoupon).then(() => {
+          this.cancel()
+          this.$emit('update')
+        })
       }
-
-      this.axios[httpMethod](api, this.tempCoupon).then(() => {
-        this.cancel()
-        this.$emit('update')
-      })
     }
   }
 }

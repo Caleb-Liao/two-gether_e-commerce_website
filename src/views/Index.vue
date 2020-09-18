@@ -28,8 +28,8 @@
         </li>
       </ul>
     </div>
-    <div class="block">
-      <el-carousel :interval=2500 autoplay height="65vh" ref="carousel" @change="getIndex($refs.carousel.activeIndex)">
+    <div class="block" v-touch:swipe="swipeHandler">
+      <el-carousel :interval=2500 autoplay height="65vh" ref="carousel" @change="activeImg = $refs.carousel.activeIndex">
         <el-carousel-item v-for="item in images" :key="item.image">
           <router-link :to="`${item.path}`"><img :src="item.image" alt=""></router-link>
           <router-link :to="`${item.path}`" class="indexBtn">{{ item.word }}</router-link>
@@ -53,11 +53,13 @@ export default {
   },
 
   methods: {
-    getIndex (num) {
-      // 背景出現的時間同步一點
-      setTimeout(() => {
-        this.activeImg = num
-      }, 0)
+    swipeHandler (direction) {
+      if (direction === 'left') {
+        this.$refs.carousel.next()
+      }
+      if (direction === 'right') {
+        this.$refs.carousel.prev()
+      }
     }
   }
 }

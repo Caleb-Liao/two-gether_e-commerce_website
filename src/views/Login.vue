@@ -33,10 +33,7 @@ export default {
   },
   methods: {
     signin () {
-      apiLogin(this.user).then((response) => {
-        // const token = response.data.token
-        // const expired = response.data.expired
-        // document.cookie = `token=${token};expires=${new Date(expired * 1000)}; path=/`
+      apiLogin(this.user).then(() => {
         this.$router.push('admin/products')
       }).catch(() => {
         this.user.password = ''

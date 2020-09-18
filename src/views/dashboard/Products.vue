@@ -15,12 +15,12 @@
     :dialog-visible="dialogVisible"
     :is-new="isNew"
     ref="productModal"
+    @open-modal="dialogVisible = true"
     @dialog-cancel="dialogVisible = false"
     @update="getProducts"></productmodal>
 
     <el-table
       :data="productsList"
-      v-loading="loading"
       style="width: 100%">
       <el-table-column
         label="圖片"
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { apiDashboardProductsGet } from '@/apiAdmin.js'
+import { apiDashboardProductsGet, apiDashboardProductsDelete } from '@/apiAdmin.js'
 import ProductModal from '@/components/ProductModal'
 
 export default {
@@ -100,7 +100,6 @@ export default {
       dialogVisible: false,
       productsList: [],
       isNew: true,
-      loading: false,
       category: [
         { name: '全部', value: 'all' },
         { name: '運動', value: 'exercise' },
@@ -129,7 +128,6 @@ export default {
   methods: {
     // 取得產品資料
     getProducts () {
-      this.loading = true
       apiDashboardProductsGet().then((response) => {
         // 建立好data包含全部資料和篩選過後的資料
         this.data.all = response.data.data
@@ -160,7 +158,6 @@ export default {
           this.data[category].push(item)
         })
         this.productsList = this.data.all
-        this.loading = false
       })
     },
 
@@ -183,11 +180,6 @@ export default {
           // 用ref觸發productModal的getProduct()，並將父層tempProduct裡該產品的id以參數傳過去
           this.$refs.productModal.getProduct(id)
           this.isNew = false
-          this.loading = true
-          setTimeout(() => {
-            this.dialogVisible = true
-            this.loading = false
-          }, 1500)
           break
         default:
           break
@@ -204,12 +196,10 @@ export default {
           type: 'success',
           message: '刪除成功!'
         })
-        this.loading = true
-        const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/product/${item.id}`
-        this.axios.delete(url).then(() => {
+        apiDashboardProductsDelete(item.id).then(() => {
           this.getProducts()
         })
-      }).catch(() => {})
+      })
     }
   }
 }

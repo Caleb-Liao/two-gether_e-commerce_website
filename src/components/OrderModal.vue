@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { apiDashboardOrderDetail } from '@/apiAdmin.js'
 export default {
   data () {
     return {
@@ -67,13 +68,13 @@ export default {
     },
 
     getOrder (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/orders/${id}`
-      this.axios.get(api).then((response) => {
+      apiDashboardOrderDetail(id).then((response) => {
         // 拿會用到的資料就好，以免深層的東西沒處理會出錯
         this.tempOrder.message = response.data.data.message
         this.tempOrder.user = response.data.data.user
         this.tempOrder.coupon.title = response.data.data.coupon.title
         this.tempOrder.coupon.percent = response.data.data.coupon.percent
+        this.$emit('open-modal')
       })
     }
   }

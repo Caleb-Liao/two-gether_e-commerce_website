@@ -14,7 +14,9 @@
     "reset-css": "^5.0.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue-touch": "^2.0.0-beta.4",
+    "vue2-touch-events": "^2.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

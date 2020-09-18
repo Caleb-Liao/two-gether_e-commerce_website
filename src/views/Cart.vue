@@ -7,32 +7,32 @@
         <el-button @click="deleteAll">清空購物車<img src="@/assets/icon/trashcan.svg" alt=""></el-button>
         <el-table :data="cart">
           <el-table-column
-            width="150"
-            align="center"
-            v-if="cart.length > 0">
+            min-width="40%"
+            label="品名">
             <div slot-scope="scope">
               <el-image
                 :src="scope.row.product.imageUrl[0]"
                 @click="openModal(scope.row.product.id)">
               </el-image>
+              <h6>{{scope.row.product.title}}</h6>
             </div>
           </el-table-column>
           <el-table-column
-            prop="product.title"
-            label="品名">
-          </el-table-column>
-          <el-table-column
+          min-width="25%"
             prop="product.category"
             label="類別"
             align="center">
           </el-table-column>
           <el-table-column
+          min-width="25%"
             prop="product.price"
             label="小計"
             align="center">
           </el-table-column>
-          <el-table-column align="center">
-            <div slot-scope="scope">
+          <el-table-column
+            min-width="10%"
+            align="center">
+            <div slot-scope="scope" class="delete">
               <img src="@/assets/icon/trashcan.svg" alt="" @click="deleteItem(scope.row.product.id)" style="cursor:pointer">
             </div>
           </el-table-column>

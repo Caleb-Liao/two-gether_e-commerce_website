@@ -27,7 +27,8 @@
             <img src="@/assets/icon/ticket.svg" alt="" v-if="item.title === '時數券(1hr)' || item.title === '情侶券'">
             <img src="@/assets/icon/male.svg" alt="" v-if="item.options.gender === '男'">
             <img src="@/assets/icon/female.svg" alt="" v-if="item.options.gender === '女'">
-            <span style="margin-left:50px">{{ item.title }}</span>
+            <span style="transform:translateY(10px) translateX(20px);font-size:16px;color:#a59a96">{{ item.options.area }}</span>
+            <span style="font-size:20px">{{ item.title }}</span>
             <span>{{ item.price }}
               <span style="font-size:16px;color:#a59a96;margin-left:3px">$</span>
             </span>
@@ -160,7 +161,6 @@ export default {
           }
           this.categoryList[category].push(item)
         })
-      }).catch(() => {
       })
     },
 

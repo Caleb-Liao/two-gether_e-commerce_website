@@ -3,11 +3,11 @@
     <ordermodal
     :dialog-visible="dialogVisible"
     ref="ordermodal"
+    @open-modal="dialogVisible = true"
     @dialog-cancel="dialogVisible = false"></ordermodal>
 
     <el-table
       :data="ordersList"
-      v-loading="loading"
       style="width: 100%">
       <el-table-column
         label="訂單時間"
@@ -39,10 +39,12 @@
       </el-table-column>
       <el-table-column
         label="總消費金額"
-        prop="amount"
         align="right"
         width="120"
         sortable>
+        <template slot-scope="scope">
+          <span>{{ Math.round(scope.row.amount) }}</span>
+        </template>
       </el-table-column>
       <el-table-column label="是否付款"
       align="center"
@@ -67,6 +69,7 @@
 </template>
 
 <script>
+import { apiDashboardOrdersGet, apiDashboardPaidChange } from '@/apiAdmin.js'
 import OrderModal from '@/components/OrderModal'
 
 export default {
@@ -78,8 +81,7 @@ export default {
     return {
       dialogVisible: false,
       ordersList: [],
-      pagination: {},
-      loading: false
+      pagination: {}
     }
   },
 
@@ -88,35 +90,20 @@ export default {
   },
 
   methods: {
-    getOrders (paged = 99999) {
-      this.loading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/orders?paged=${paged}`
-      this.axios.get(api).then((response) => {
+    getOrders () {
+      apiDashboardOrdersGet().then((response) => {
         this.ordersList = response.data.data
         this.pagination = response.data.meta.pagination
-        this.loading = false
       })
     },
 
     changePaidStatus (item) {
-      this.loading = true
-      let api = ''
-      if (item.paid) {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/orders/${item.id}/paid`
-      } else {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_UUID}/admin/ec/orders/${item.id}/unpaid`
-      }
-      this.axios.patch(api).then((response) => {
+      apiDashboardPaidChange(item).then(() => {
         this.getOrders()
       })
     },
 
     openModal (id) {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-        this.dialogVisible = true
-      }, 1500)
       this.$refs.ordermodal.getOrder(id)
     }
   }

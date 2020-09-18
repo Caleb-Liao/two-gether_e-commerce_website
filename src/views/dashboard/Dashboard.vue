@@ -24,19 +24,16 @@ export default {
 
   data () {
     return {
-      token: '',
       checkSuccess: false
     }
   },
 
   created () {
-    // this.token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
-    // this.axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
     apiLoginCheck().then((response) => {
       if (response.data.success) {
         this.checkSuccess = true
       }
-    }).catch((res) => {
+    }).catch(() => {
       this.$router.push('/login')
     })
   },
