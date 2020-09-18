@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: './',
+  publicPath: '/two-gether_e-commerce_website/dist/',
   pwa: {
     iconPaths: {
       favicon32: 'favicon.ico',
