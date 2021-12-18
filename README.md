@@ -1,4 +1,4 @@
-# Two-Gether
+# TwoGether
 
 ## Demo
 
@@ -17,6 +17,8 @@ Some people often can’t find a companion to go out with because they don’t h
 
 ## Skills
 
+- HTML5
+- CSS3
 - Vue.js
 - Vue CLI
 - Vue Router
